@@ -1,0 +1,2 @@
+document.getElementById('year').textContent=new Date().getFullYear();document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navlinks').classList.remove('open')))
+const toggle=document.getElementById('mobile-menu-toggle');if(toggle){toggle.addEventListener('click',()=>{const l=document.getElementById('navlinks');l.classList.toggle('open');toggle.setAttribute('aria-expanded',String(l.classList.contains('open')));});}
