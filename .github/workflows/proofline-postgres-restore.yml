@@ -52,6 +52,8 @@ jobs:
         run: python3 -m unittest discover -s proofline-stage/ci -p 'test_*.py' -v
       - name: Restore into separate ephemeral PostgreSQL 17
         run: python3 proofline-stage/ci/run_isolated_restore.py
+      - name: Prove tenant isolation under actual restricted PostgreSQL role
+        run: psql -X -v ON_ERROR_STOP=1 -f proofline-stage/ci/test_tenant_rls.sql
       - name: Verify resulting table is nonempty
         run: |
           test "$(psql -Atqc 'SELECT count(*) FROM recovery_acceptance.custody_events')" = "2"
