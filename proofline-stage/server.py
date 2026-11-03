@@ -81,6 +81,33 @@ def auth_gate_negative_check():
     except (urllib.error.URLError,OSError,ValueError,UnicodeError):
         return False
 
+def one_time_auth_acceptance():
+    """Synthetic-only, single-use hosted identity rehearsal. No tokens logged."""
+    import urllib.request
+    import urllib.error
+    secret = os.environ.get("PROOFLINE_ONETIME_ACCEPTANCE_SECRET", "")
+    anon = os.environ.get("PROOFLINE_STAGING_ANON_JWT", "")
+    if not secret or not anon:
+        return "not_configured"
+    if len(secret)>256 or len(anon)>8192:
+        return "invalid_configuration"
+    url = ("https://pgknyzwctmfqvlivlgpe.supabase.co/functions/v1/"
+           "proofline-single-use-identity-acceptance/run")
+    request = urllib.request.Request(url, method="POST", data=b"", headers={
+        "Authorization": "Bearer " + anon,
+        "apikey": anon,
+        "x-proofline-one-time": secret,
+        "Accept": "application/json",
+    })
+    try:
+        with urllib.request.urlopen(request, timeout=50) as response:
+            result = json.loads(response.read(1024))
+            return "passed" if response.status==200 and result.get("status")=="passed" else "failed"
+    except urllib.error.HTTPError:
+        return "denied_or_failed"
+    except (urllib.error.URLError, OSError, ValueError, UnicodeError):
+        return "unavailable"
+
 def main():
     if os.getenv("PROOFLINE_STAGE_MODE")!="sealed":
         raise SystemExit("Sealed staging only; refusing startup")
@@ -88,5 +115,6 @@ def main():
     if not 1024<=port<=65535:raise SystemExit("Invalid port")
     print("proofline_upstream_staging_db=" + ("verified" if upstream_diagnostic_check() else "unverified"), flush=True)
     print("proofline_auth_negative=" + ("denied" if auth_gate_negative_check() else "unverified"), flush=True)
+    print("proofline_auth_positive=" + one_time_auth_acceptance(), flush=True)
     ThreadingHTTPServer(("0.0.0.0",port),Handler).serve_forever()
 if __name__=="__main__":main()
