@@ -44,6 +44,8 @@ jobs:
             sudo apt-get update -qq
             sudo apt-get install -y postgresql-client
           fi
+      - name: Install pinned-signature verification library
+        run: python3 -m pip install --disable-pip-version-check 'cryptography>=44,<48'
       - name: Verify pinned synthetic archive without DB
         run: python3 proofline-stage/ci/run_isolated_restore.py --dry-run
       - name: Validate archive integrity and reject altered fixtures
