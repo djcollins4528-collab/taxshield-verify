@@ -16,3 +16,34 @@ export function parseAuthorizationRequest(method,requestUrl,header){
 }
 export function isValidIdentity(user){return !!user&&typeof user.id==='string'&&UUID.test(user.id)&&!user.is_anonymous&&user.aud==='authenticated'}
 export function isAuthorizedMembership(rows){return Array.isArray(rows)&&rows.length===1&&rows[0]?.allowed===true}
+
+/** Decode the payload only AFTER auth.getUser(token) has verified the token.
+ * This parser never verifies a signature and must never be used for authorization alone. */
+export function decodeVerifiedJwtPayload(token) {
+ if(typeof token!=='string'||token.length>8192)return null;
+ const parts=token.split('.');
+ if(parts.length!==3||!parts.every(part=>part.length>0))return null;
+ if(!/^[A-Za-z0-9_-]+$/.test(parts[1]))return null;
+ try {
+   const encoded=parts[1].replace(/-/g,'+').replace(/_/g,'/');
+   const decoded=atob(encoded.padEnd(Math.ceil(encoded.length/4)*4,'='));
+   const claims=JSON.parse(decoded);
+   return claims && typeof claims==='object' && !Array.isArray(claims) ? claims : null;
+ } catch { return null }
+}
+/** The JWT must already have passed getUser(token)'s signature/expiry check. */
+export function matchesVerifiedSessionClaims(claims, verifiedUser, nowSeconds=Math.floor(Date.now()/1000)) {
+ if(!claims || !isValidIdentity(verifiedUser))return false;
+ if(typeof claims.session_id!=='string'||!UUID.test(claims.session_id))return false;
+ if(claims.sub!==verifiedUser.id||claims.iss!==ISSUER)return false;
+ if(claims.role!=='authenticated')return false;
+ if(claims.aud!=='authenticated')return false;
+ if(!Number.isSafeInteger(claims.exp)||claims.exp<=nowSeconds)return false;
+ if(claims.nbf!==undefined&&(!Number.isSafeInteger(claims.nbf)||claims.nbf>nowSeconds))return false;
+ return true;
+}
+/** Database must confirm both live Auth session and active requested-role membership. */
+export function isAuthorizedLiveSession(rows) {
+ return Array.isArray(rows)&&rows.length===1 &&
+   rows[0]?.session_live===true && rows[0]?.membership_allowed===true;
+}
