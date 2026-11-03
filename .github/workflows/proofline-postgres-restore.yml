@@ -46,6 +46,8 @@ jobs:
           fi
       - name: Verify pinned synthetic archive without DB
         run: python3 proofline-stage/ci/run_isolated_restore.py --dry-run
+      - name: Validate archive integrity and reject altered fixtures
+        run: python3 -m unittest discover -s proofline-stage/ci -p 'test_*.py' -v
       - name: Restore into separate ephemeral PostgreSQL 17
         run: python3 proofline-stage/ci/run_isolated_restore.py
       - name: Verify resulting table is nonempty
