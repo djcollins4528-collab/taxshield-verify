@@ -1,0 +1,54 @@
+name: Proofline isolated PostgreSQL recovery
+on:
+  push:
+    paths:
+      - "proofline-stage/ci/**"
+      - ".github/workflows/proofline-postgres-restore.yml"
+  pull_request:
+    paths:
+      - "proofline-stage/ci/**"
+      - ".github/workflows/proofline-postgres-restore.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: proofline_synthetic
+          POSTGRES_PASSWORD: github-ci-synthetic-only
+          POSTGRES_DB: proofline_isolated_recovery
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U proofline_synthetic -d proofline_isolated_recovery"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: proofline_synthetic
+      PGPASSWORD: github-ci-synthetic-only
+      PGDATABASE: proofline_isolated_recovery
+      PGSSLMODE: prefer
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install isolated PostgreSQL client
+        run: |
+          if ! command -v psql >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y postgresql-client
+          fi
+      - name: Verify pinned synthetic archive without DB
+        run: python3 proofline-stage/ci/run_isolated_restore.py --dry-run
+      - name: Restore into separate ephemeral PostgreSQL 17
+        run: python3 proofline-stage/ci/run_isolated_restore.py
+      - name: Verify resulting table is nonempty
+        run: |
+          test "$(psql -Atqc 'SELECT count(*) FROM recovery_acceptance.custody_events')" = "2"
+          test "$(psql -Atqc "SELECT count(*) FROM recovery_acceptance.custody_events WHERE kind='review'")" = "1"
