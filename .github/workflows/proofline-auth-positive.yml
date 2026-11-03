@@ -1,0 +1,19 @@
+name: Proofline two-user Auth acceptance (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official-auth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify official Supabase Auth users, roles, and tenant denial
+        env:
+          PROOFLINE_PUBLIC_API_KEY: ${{ secrets.PROOFLINE_PUBLIC_API_KEY }}
+          PROOFLINE_COLLECTOR_EMAIL: ${{ secrets.PROOFLINE_COLLECTOR_EMAIL }}
+          PROOFLINE_COLLECTOR_PASSWORD: ${{ secrets.PROOFLINE_COLLECTOR_PASSWORD }}
+          PROOFLINE_REVIEWER_EMAIL: ${{ secrets.PROOFLINE_REVIEWER_EMAIL }}
+          PROOFLINE_REVIEWER_PASSWORD: ${{ secrets.PROOFLINE_REVIEWER_PASSWORD }}
+        run: python3 proofline-stage/ci/positive_auth_acceptance.py
