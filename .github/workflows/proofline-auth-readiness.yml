@@ -1,0 +1,46 @@
+name: Proofline official Auth readiness
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/proofline-auth-readiness.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  auth-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      STAGING_URL: https://pgknyzwctmfqvlivlgpe.supabase.co
+      # Public publishable key, not a service-role credential.
+      STAGING_PUBLIC_KEY: sb_publishable_JInBFXehTue8SgL_3a8glg_0RDL1PLk
+    steps:
+      - name: Read only official Supabase Auth settings and reject uncredentialed access
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json,os,urllib.request,urllib.error
+          base=os.environ['STAGING_URL'];key=os.environ['STAGING_PUBLIC_KEY']
+          def call(path):
+              req=urllib.request.Request(base+path,headers={'apikey':key,'Accept':'application/json','User-Agent':'Proofline-Auth-Readiness/1.0'},method='GET')
+              try:
+                  with urllib.request.urlopen(req,timeout=18) as res:return res.status,res.read(32769)
+              except urllib.error.HTTPError as err:return err.code,err.read(32769)
+          status,blob=call('/auth/v1/settings')
+          if status!=200 or len(blob)>32768:raise SystemExit(f'FAIL: Auth settings HTTP {status} or oversized response')
+          cfg=json.loads(blob)
+          if not isinstance(cfg,dict):raise SystemExit('FAIL: unexpected Auth settings response')
+          ext=cfg.get('external')
+          print('Auth settings HTTP 200')
+          print('Public configuration:',json.dumps({
+            'disable_signup':cfg.get('disable_signup'),
+            'email_enabled':ext.get('email') if isinstance(ext,dict) else None,
+            'mailer_autoconfirm':cfg.get('mailer_autoconfirm'),
+            'sms_autoconfirm':cfg.get('sms_autoconfirm')
+          },sort_keys=True))
+          path='/functions/v1/proofline-staging-auth/check?tenant=bbbbaaaa-1111-4111-8111-000000000001&role=collector'
+          code,_=call(path)
+          if code not in (401,403):raise SystemExit(f'FAIL: missing bearer not denied (HTTP {code})')
+          print(f'No-bearer authorization denied: HTTP {code}')
+          print('PASS: read-only Auth readiness: no users created, no billing')
+          PY
