@@ -56,6 +56,30 @@ jobs:
         run: psql -X -v ON_ERROR_STOP=1 -f proofline-stage/ci/test_tenant_rls.sql
       - name: Verify active membership, role and revocation under restricted DB identity
         run: psql -X -v ON_ERROR_STOP=1 -f proofline-stage/ci/test_active_membership_rls.sql
+      - name: Check single-role constraint and stage external Auth identities
+        run: psql -X -v ON_ERROR_STOP=1 -f proofline-stage/ci/test_one_role_enrollment_fixture.sql
+      - name: Test guarded two-user enrollment and fail-closed behavior
+        run: |
+          set -euo pipefail
+          script=proofline-stage/ci/enroll_existing_auth_test_users.sql
+          if psql -X -v ON_ERROR_STOP=1 -f "$script" >/dev/null 2>&1; then
+            echo "FAIL: missing account variables succeeded"; exit 1
+          fi
+          if psql -X -v ON_ERROR_STOP=1 -v collector_email=real@example.invalid \
+            -v reviewer_email=proofline-reviewer-test@example.invalid -f "$script" >/dev/null 2>&1; then
+            echo "FAIL: customer-style email accepted"; exit 1
+          fi
+          psql -X -v ON_ERROR_STOP=1 \
+            -v collector_email=proofline-collector-test@example.invalid \
+            -v reviewer_email=proofline-reviewer-test@example.invalid -f "$script"
+          test "$(psql -Atqc "SELECT count(*) FROM proofline_private.memberships WHERE active")" = "2"
+          test "$(psql -Atqc "SELECT count(DISTINCT auth_user_id) FROM proofline_private.memberships")" = "2"
+          if psql -X -v ON_ERROR_STOP=1 \
+            -v collector_email=proofline-collector-test@example.invalid \
+            -v reviewer_email=proofline-reviewer-test@example.invalid -f "$script" >/dev/null 2>&1; then
+            echo "FAIL: repeat enrollment succeeded"; exit 1
+          fi
+          test "$(psql -Atqc "SELECT count(*) FROM proofline_private.memberships")" = "2"
       - name: Verify resulting table is nonempty
         run: |
           test "$(psql -Atqc 'SELECT count(*) FROM recovery_acceptance.custody_events')" = "2"
