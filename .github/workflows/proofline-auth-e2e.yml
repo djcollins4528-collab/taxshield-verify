@@ -1,0 +1,44 @@
+name: Proofline live Auth acceptance
+on:
+  pull_request:
+    paths:
+      - 'proofline-stage/ci/live_auth_acceptance*.mjs'
+      - '.github/workflows/proofline-auth-e2e.yml'
+  push:
+    paths:
+      - 'proofline-stage/ci/live_auth_acceptance*.mjs'
+      - '.github/workflows/proofline-auth-e2e.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Confirm fail-closed behavior with synthetic HTTP mocks
+        run: node --test proofline-stage/ci/live_auth_acceptance.test.mjs
+  live-auth:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    needs: offline-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: proofline-auth-acceptance
+    env:
+      SUPABASE_URL: https://pgknyzwctmfqvlivlgpe.supabase.co
+      SUPABASE_PUBLISHABLE_KEY: ${{ secrets.PROOFLINE_STAGING_PUBLISHABLE_KEY }}
+      PROOFLINE_COLLECTOR_EMAIL: ${{ secrets.PROOFLINE_COLLECTOR_EMAIL }}
+      PROOFLINE_COLLECTOR_PASSWORD: ${{ secrets.PROOFLINE_COLLECTOR_PASSWORD }}
+      PROOFLINE_REVIEWER_EMAIL: ${{ secrets.PROOFLINE_REVIEWER_EMAIL }}
+      PROOFLINE_REVIEWER_PASSWORD: ${{ secrets.PROOFLINE_REVIEWER_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify genuine Auth sessions, role isolation, and signout revocation
+        run: node proofline-stage/ci/live_auth_acceptance.mjs
