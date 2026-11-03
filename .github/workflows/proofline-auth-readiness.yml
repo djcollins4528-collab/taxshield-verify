@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - ".github/workflows/proofline-auth-readiness.yml"
+      - "proofline-stage/ci/positive_auth_acceptance.py"
+      - "proofline-stage/ci/test_positive_auth_acceptance.py"
   workflow_dispatch:
 permissions:
   contents: read
@@ -15,6 +17,9 @@ jobs:
       # Public publishable key, not a service-role credential.
       STAGING_PUBLIC_KEY: sb_publishable_JInBFXehTue8SgL_3a8glg_0RDL1PLk
     steps:
+      - uses: actions/checkout@v4
+      - name: Exercise fail-closed official Auth acceptance harness offline
+        run: python3 -m unittest discover -s proofline-stage/ci -p "test_positive_auth_acceptance.py" -v
       - name: Read only official Supabase Auth settings and reject uncredentialed access
         shell: bash
         run: |
