@@ -73,7 +73,7 @@ decode(regexp_replace(e->>'nonce_b64','\\s','','g'),'base64'),
 decode(regexp_replace(e->>'sealed_b64','\\s','','g'),'base64'),
 e->>'prev',e->>'digest',(e->>'reviewed_evidence_id')::uuid
 FROM doc,LATERAL jsonb_array_elements(doc.j->'events') e;
-DO $$
+DO $pl$
 BEGIN
  IF (SELECT count(*) FROM recovery_acceptance.custody_events)<>2 THEN RAISE EXCEPTION 'bad restore count'; END IF;
  IF EXISTS(SELECT 1 FROM recovery_acceptance.custody_events r
@@ -99,25 +99,25 @@ BEGIN
    UNION ALL
    (SELECT * FROM recovery_acceptance.custody_events EXCEPT SELECT * FROM expected)
  ) THEN RAISE EXCEPTION 'recovered binary/text fields differ from pinned archive'; END IF;
-END $;
+END; $pl$;
 COMMIT;
 BEGIN;
 CREATE TEMP TABLE mutated AS TABLE recovery_acceptance.custody_events;
 UPDATE mutated SET actor='deliberate-tamper' WHERE seq=1;
-DO $$ BEGIN
+DO $pl$ BEGIN
  IF NOT EXISTS (SELECT 1 FROM mutated m JOIN recovery_acceptance.custody_events o
  USING(tenant_id,seq) WHERE m.actor IS DISTINCT FROM o.actor)
  THEN RAISE EXCEPTION 'tamper check failed'; END IF;
-END $$;
+END; $pl$;
 ROLLBACK;
-DO $$ DECLARE blocked boolean:=false;
+DO $pl$ DECLARE blocked boolean:=false;
 BEGIN
  BEGIN
   INSERT INTO recovery_acceptance.custody_events
   SELECT * FROM recovery_acceptance.custody_events WHERE seq=1;
  EXCEPTION WHEN unique_violation THEN blocked:=true; END;
  IF NOT blocked THEN RAISE EXCEPTION 'overwrite unexpectedly allowed'; END IF;
-END $$;
+END; $pl$;
 SELECT count(*) AS restored_rows,
 count(*) FILTER (WHERE kind='review') AS independent_reviews
 FROM recovery_acceptance.custody_events;
