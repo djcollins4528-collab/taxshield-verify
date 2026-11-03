@@ -37,7 +37,7 @@ class Handler(BaseHTTPRequestHandler):
     do_DELETE=do_POST
     def log_message(self,fmt,*args):pass
 def main():
-    if os.getenv("PROOFLINE_STAGE_MODE")!="sealed":
+    if os.getenv("PROOFLINE_STAGE_MODE") not in ("sealed","sealed_db_probe"):
         raise SystemExit("Sealed staging only; refusing startup")
     port=int(os.environ.get("PORT","10000"))
     if not 1024<=port<=65535:raise SystemExit("Invalid port")
