@@ -4,6 +4,33 @@ Requires a fresh empty PGDATABASE; no real data, database secrets, or signing ke
 import base64, hashlib, json, os, pathlib, subprocess, sys
 ARCHIVE=pathlib.Path(__file__).with_name("synthetic-verified-archive.json")
 PIN="f9a23bbea2e9a1dd2f9a898d27ba064b1a04718630673392f06baee7fd92f8fc"
+def verify_signed_synthetic_anchor(snapshot):
+    """Verify independent Ed25519 signature and frozen prior inventory before SQL."""
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
+    anchor_file=ARCHIVE.with_name("signed-synthetic-anchor.json")
+    key_file=ARCHIVE.with_name("public-pinned-signer.json")
+    try:
+        anchor=json.loads(anchor_file.read_bytes())
+        pinned=json.loads(key_file.read_bytes())
+        statement=anchor["statement"]
+        canonical=lambda obj: json.dumps(obj,sort_keys=True,separators=(",",":")).encode("utf-8")
+        if sorted(anchor)!=["signature_ed25519_b64","statement"]:
+            raise ValueError("Unexpected anchor fields")
+        if (pinned["archive_sha256"]!=PIN or
+            statement["version"]!="proofline.postgres-archive-anchor.v1" or
+            statement["snapshot_sha256"]!=hashlib.sha256(snapshot).hexdigest() or
+            statement["inventory"]!=[{
+                "count":2,
+                "tenant":"bbbbaaaa-1111-4111-8111-000000000001",
+                "tip":"d23c678eb918133589feeb1e1e0dd4e68630a8ae746920ce68379f705118a94c"
+            }]):
+            raise ValueError("Signed inventory or pinned archive mismatch")
+        public=bytes.fromhex(pinned["signer_public_key_hex"])
+        signature=base64.b64decode(anchor["signature_ed25519_b64"],validate=True)
+        Ed25519PublicKey.from_public_bytes(public).verify(signature,canonical(statement))
+    except Exception as exc:
+        raise RuntimeError("Signed recovery archive verification failed") from exc
+
 def sql_script():
     raw=ARCHIVE.read_bytes()
     if hashlib.sha256(raw).hexdigest()!=PIN:
@@ -22,6 +49,7 @@ def sql_script():
             first["actor"] != second["actor"] and
             first["tenant"] == second["tenant"] == doc["tenants"][0]):
         raise RuntimeError("Broken evidence/review fixture")
+    verify_signed_synthetic_anchor(raw)
     payload=base64.b64encode(raw).decode()
     return r"""\set ON_ERROR_STOP on
 BEGIN;
