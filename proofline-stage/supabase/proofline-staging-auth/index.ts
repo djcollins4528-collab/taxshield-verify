@@ -24,6 +24,7 @@ Deno.serve(async(req)=>{
      WHERE tenant_id=${check.tenant}::uuid
        AND issuer=${ISSUER}
        AND subject=${user.id}
+       AND auth_user_id=${user.id}::uuid
        AND role=${check.role}
        AND active=true
    ) AS allowed`;
