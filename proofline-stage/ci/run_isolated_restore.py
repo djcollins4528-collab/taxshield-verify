@@ -13,6 +13,15 @@ def sql_script():
         raise RuntimeError("Unexpected fixture")
     if [e["kind"] for e in doc["events"]] != ["evidence","review"]:
         raise RuntimeError("Unexpected event order")
+    if doc["tenants"] != ["bbbbaaaa-1111-4111-8111-000000000001"]:
+        raise RuntimeError("Unexpected tenant inventory")
+    first, second = doc["events"]
+    if not (first["seq"] == 1 and second["seq"] == 2 and
+            first["prev"] == "GENESIS" and second["prev"] == first["digest"] and
+            second["reviewed_evidence_id"] == first["id"] and
+            first["actor"] != second["actor"] and
+            first["tenant"] == second["tenant"] == doc["tenants"][0]):
+        raise RuntimeError("Broken evidence/review fixture")
     payload=base64.b64encode(raw).decode()
     return r"""\set ON_ERROR_STOP on
 BEGIN;
@@ -46,7 +55,23 @@ BEGIN
  WHERE e.tenant_id=r.tenant_id AND e.seq=1 AND e.id=r.reviewed_evidence_id
  AND e.kind='evidence' AND e.actor<>r.actor AND e.digest=r.prev)))) THEN
  RAISE EXCEPTION 'custody chain or reviewer invariant failed'; END IF;
-END $$;
+ -- Check the native PostgreSQL binary columns against the exact pinned archive.
+ IF EXISTS (
+   WITH doc2 AS (SELECT convert_from(decode('PAYLOAD','base64'),'UTF8')::jsonb j),
+   expected AS (
+     SELECT (e->>'tenant')::uuid tenant_id,(e->>'seq')::bigint seq,
+       (e->>'id')::uuid id,e->>'kind' kind,e->>'actor' actor,e->>'role' role,
+       (e->>'at')::timestamptz at,decode(e->>'nonce_b64','base64') nonce,
+       decode(e->>'sealed_b64','base64') sealed,
+       e->>'prev' prev,e->>'digest' digest,
+       (e->>'reviewed_evidence_id')::uuid reviewed_evidence_id
+     FROM doc2,LATERAL jsonb_array_elements(doc2.j->'events') e
+   )
+   (SELECT * FROM expected EXCEPT SELECT * FROM recovery_acceptance.custody_events)
+   UNION ALL
+   (SELECT * FROM recovery_acceptance.custody_events EXCEPT SELECT * FROM expected)
+ ) THEN RAISE EXCEPTION 'recovered binary/text fields differ from pinned archive'; END IF;
+END $;
 COMMIT;
 BEGIN;
 CREATE TEMP TABLE mutated AS TABLE recovery_acceptance.custody_events;
