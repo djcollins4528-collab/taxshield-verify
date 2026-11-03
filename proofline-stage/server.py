@@ -58,11 +58,35 @@ def upstream_diagnostic_check():
     except (urllib.error.URLError, OSError, ValueError, UnicodeError):
         return False
 
+def auth_gate_negative_check():
+    """Anonymous project JWT must not authorize a collector or reviewer."""
+    import urllib.request
+    import urllib.error
+    token = os.environ.get("PROOFLINE_STAGING_ANON_JWT", "")
+    if not token or len(token)>8192:
+        return False
+    url = ("https://pgknyzwctmfqvlivlgpe.supabase.co/functions/v1/"
+           "proofline-staging-auth/check?tenant="
+           "bbbbaaaa-1111-4111-8111-000000000001&role=collector")
+    request = urllib.request.Request(url, method="GET", headers={
+        "Authorization": "Bearer " + token,
+        "apikey": token,
+        "Accept": "application/json",
+    })
+    try:
+        with urllib.request.urlopen(request,timeout=8) as response:
+            return False  # ANY success here fails the negative security test
+    except urllib.error.HTTPError as e:
+        return e.code in (401,403)
+    except (urllib.error.URLError,OSError,ValueError,UnicodeError):
+        return False
+
 def main():
     if os.getenv("PROOFLINE_STAGE_MODE")!="sealed":
         raise SystemExit("Sealed staging only; refusing startup")
     port=int(os.environ.get("PORT","10000"))
     if not 1024<=port<=65535:raise SystemExit("Invalid port")
     print("proofline_upstream_staging_db=" + ("verified" if upstream_diagnostic_check() else "unverified"), flush=True)
+    print("proofline_auth_negative=" + ("denied" if auth_gate_negative_check() else "unverified"), flush=True)
     ThreadingHTTPServer(("0.0.0.0",port),Handler).serve_forever()
 if __name__=="__main__":main()
