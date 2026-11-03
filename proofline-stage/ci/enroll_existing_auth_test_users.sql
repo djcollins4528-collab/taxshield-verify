@@ -10,12 +10,12 @@
 \if :{?collector_email}
 \else
 \echo 'FAIL CLOSED: collector_email psql variable required'
-\quit 10
+SELECT 1 / 0;
 \endif
 \if :{?reviewer_email}
 \else
 \echo 'FAIL CLOSED: reviewer_email psql variable required'
-\quit 11
+SELECT 1 / 0;
 \endif
 BEGIN;
 CREATE TEMP TABLE proofline_enrollment_input(
