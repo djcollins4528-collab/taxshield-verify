@@ -15,3 +15,11 @@ The function checks a bearer token via Supabase Auth `getUser`, then uses a fixe
 
 ## Pending
 No signed-in test account or active membership was provisioned. Positive user authorization and revocation checks have NOT been verified. This does not prove the complete collector -> reviewer -> checkpoint -> recovery workflow. Do not enable customer intake, billing, or real evidence submission.
+
+## 2026-11-03 — Auth membership integrity gate
+
+- Supabase project `pgknyzwctmfqvlivlgpe`: added `auth_user_id` reference to a real Supabase Auth user; subject and issuer must match this project. Applied via Supabase migration.
+- Version 2 of `proofline-staging-auth` now requires the Auth-user ID in its parameterized database membership query.
+- Transactional negative tests rejected a fabricated Auth ID, an untrusted issuer, and a mismatched subject, then rolled back.
+- Verified zero Auth users, zero membership rows, and zero custody events; independent positive two-user identity acceptance is **not complete**.
+- Existing Python suite 65 pass; policy suite 18 pass. No customer API writes or payments enabled.
