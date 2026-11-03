@@ -66,7 +66,8 @@ class RestoreAcceptanceTests(unittest.TestCase):
     def test_plpgsql_blocks_have_required_semicolons(self):
         sql=runner.sql_script()
         self.assertNotIn("END $;",sql)
-        self.assertGreaterEqual(sql.count("END; $;"),2)
+        self.assertEqual(sql.count("DO $pl$"),3)
+        self.assertEqual(sql.count("END; $pl$;"),3)
 
     def test_modified_ciphertext_rejected_pre_db(self):
         doc=json.loads(runner.ARCHIVE.read_bytes())
