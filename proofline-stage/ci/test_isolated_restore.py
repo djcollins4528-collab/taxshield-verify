@@ -63,6 +63,11 @@ class RestoreAcceptanceTests(unittest.TestCase):
                 with self.assertRaises(RuntimeError):
                     runner.verify_signed_synthetic_anchor(runner.ARCHIVE.read_bytes())
 
+    def test_plpgsql_blocks_have_required_semicolons(self):
+        sql=runner.sql_script()
+        self.assertNotIn("END $;",sql)
+        self.assertGreaterEqual(sql.count("END; $;"),2)
+
     def test_modified_ciphertext_rejected_pre_db(self):
         doc=json.loads(runner.ARCHIVE.read_bytes())
         doc["events"][0]["sealed_b64"]="AA=="
