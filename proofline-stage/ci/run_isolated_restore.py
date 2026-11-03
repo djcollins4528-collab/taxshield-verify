@@ -108,7 +108,7 @@ DO $$ BEGIN
  IF NOT EXISTS (SELECT 1 FROM mutated m JOIN recovery_acceptance.custody_events o
  USING(tenant_id,seq) WHERE m.actor IS DISTINCT FROM o.actor)
  THEN RAISE EXCEPTION 'tamper check failed'; END IF;
-END $$;
+END; $;
 ROLLBACK;
 DO $$ DECLARE blocked boolean:=false;
 BEGIN
@@ -117,7 +117,7 @@ BEGIN
   SELECT * FROM recovery_acceptance.custody_events WHERE seq=1;
  EXCEPTION WHEN unique_violation THEN blocked:=true; END;
  IF NOT blocked THEN RAISE EXCEPTION 'overwrite unexpectedly allowed'; END IF;
-END $$;
+END; $;
 SELECT count(*) AS restored_rows,
 count(*) FILTER (WHERE kind='review') AS independent_reviews
 FROM recovery_acceptance.custody_events;
