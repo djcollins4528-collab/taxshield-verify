@@ -31,6 +31,38 @@ class RestoreAcceptanceTests(unittest.TestCase):
         self.assertIn("SELECT * FROM expected EXCEPT SELECT * FROM recovery_acceptance.custody_events",sql)
         self.assertNotIn("INSERT INTO proofline_private.custody_events",sql)
 
+    def test_independent_signed_anchor_verified(self):
+        raw=runner.ARCHIVE.read_bytes()
+        runner.verify_signed_synthetic_anchor(raw)
+
+    def test_tampered_signature_rejected(self):
+        anchor_path=runner.ARCHIVE.with_name("signed-synthetic-anchor.json")
+        anchor=json.loads(anchor_path.read_bytes())
+        anchor["signature_ed25519_b64"]="AA" + anchor["signature_ed25519_b64"][2:]
+        with TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            (root/"synthetic-verified-archive.json").write_bytes(runner.ARCHIVE.read_bytes())
+            (root/"signed-synthetic-anchor.json").write_text(json.dumps(anchor))
+            (root/"public-pinned-signer.json").write_bytes(
+                runner.ARCHIVE.with_name("public-pinned-signer.json").read_bytes())
+            with patch.object(runner,"ARCHIVE",root/"synthetic-verified-archive.json"):
+                with self.assertRaises(RuntimeError):
+                    runner.verify_signed_synthetic_anchor(runner.ARCHIVE.read_bytes())
+
+    def test_wrong_signer_rejected(self):
+        pinned_path=runner.ARCHIVE.with_name("public-pinned-signer.json")
+        pinned=json.loads(pinned_path.read_bytes())
+        pinned["signer_public_key_hex"]="00"*32
+        with TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            (root/"synthetic-verified-archive.json").write_bytes(runner.ARCHIVE.read_bytes())
+            (root/"signed-synthetic-anchor.json").write_bytes(
+                runner.ARCHIVE.with_name("signed-synthetic-anchor.json").read_bytes())
+            (root/"public-pinned-signer.json").write_text(json.dumps(pinned))
+            with patch.object(runner,"ARCHIVE",root/"synthetic-verified-archive.json"):
+                with self.assertRaises(RuntimeError):
+                    runner.verify_signed_synthetic_anchor(runner.ARCHIVE.read_bytes())
+
     def test_modified_ciphertext_rejected_pre_db(self):
         doc=json.loads(runner.ARCHIVE.read_bytes())
         doc["events"][0]["sealed_b64"]="AA=="
