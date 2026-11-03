@@ -1,0 +1,2 @@
+# Proofline sealed staging gateway
+This is a **public transport/build smoke test**, not the Proofline customer or custody API. No customer data, tokens, Graph privileges, or database credentials. To start: set PROOFLINE_STAGE_MODE=sealed. GET /healthz returns 200; /readyz returns 503; POST operations return 403. Full private custody backend remains packaged separately pending external OIDC, scoped database login and recovery acceptance. NEVER present this service as an available customer API.
