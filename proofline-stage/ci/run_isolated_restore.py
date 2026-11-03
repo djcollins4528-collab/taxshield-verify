@@ -79,6 +79,12 @@ def main():
                      text=True,capture_output=True,timeout=90)
     if r.returncode!=0:
         raise SystemExit("PostgreSQL restore failed: "+r.stderr[-1200:])
+    verify=subprocess.run(
+        ["psql","-X","-A","-t","-q","-v","ON_ERROR_STOP=1","-c",
+         "SELECT count(*)::text || '|' || (count(*) FILTER (WHERE kind='review'))::text FROM recovery_acceptance.custody_events"],
+        text=True,capture_output=True,timeout=15)
+    if verify.returncode!=0 or verify.stdout.strip()!="2|1":
+        raise SystemExit("FAIL CLOSED: independent PostgreSQL readback must return 2 events and 1 review")
     print("PASS: independent PostgreSQL restore, review linkage, tamper and overwrite controls")
     print(r.stdout.strip())
 if __name__=="__main__":main()
