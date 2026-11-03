@@ -27,11 +27,22 @@ class RestoreAcceptanceTests(unittest.TestCase):
         self.assertIn("reviewed_evidence_id",sql)
         self.assertIn("ROLLBACK",sql)
         self.assertIn("unique_violation",sql)
+        self.assertIn("recovered binary/text fields differ from pinned archive",sql)
+        self.assertIn("SELECT * FROM expected EXCEPT SELECT * FROM recovery_acceptance.custody_events",sql)
         self.assertNotIn("INSERT INTO proofline_private.custody_events",sql)
 
     def test_modified_ciphertext_rejected_pre_db(self):
         doc=json.loads(runner.ARCHIVE.read_bytes())
         doc["events"][0]["sealed_b64"]="AA=="
+        with TemporaryDirectory() as tmp:
+            source=Path(tmp)/"archive.json"
+            source.write_text(json.dumps(doc))
+            with patch.object(runner,"ARCHIVE",source):
+                with self.assertRaises(RuntimeError):runner.sql_script()
+
+    def test_broken_reviewer_link_rejected_pre_db(self):
+        doc=json.loads(runner.ARCHIVE.read_bytes())
+        doc["events"][1]["prev"]="GENESIS"
         with TemporaryDirectory() as tmp:
             source=Path(tmp)/"archive.json"
             source.write_text(json.dumps(doc))
