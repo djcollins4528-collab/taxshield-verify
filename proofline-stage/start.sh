@@ -2,4 +2,5 @@
 set -eu
 [ "${PROOFLINE_STAGE_MODE:-}" = "sealed_db_probe" ] || { echo "Proofline staging mode denied"; exit 1; }
 python proofline-stage/db_probe.py
+export PROOFLINE_STAGE_MODE=sealed
 exec python proofline-stage/server.py
