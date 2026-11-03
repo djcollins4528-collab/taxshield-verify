@@ -1,0 +1,25 @@
+name: Proofline public release gates
+on:
+  push:
+    paths:
+      - "proofline/**"
+      - "tests/proofline_public.py"
+      - ".github/workflows/proofline-public.yml"
+  pull_request:
+    paths:
+      - "proofline/**"
+      - "tests/proofline_public.py"
+      - ".github/workflows/proofline-public.yml"
+permissions:
+  contents: read
+jobs:
+  static-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate public prelaunch surface
+        run: python -m unittest discover -s tests -p 'proofline_public.py' -v
