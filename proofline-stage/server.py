@@ -36,10 +36,33 @@ class Handler(BaseHTTPRequestHandler):
     do_PATCH=do_POST
     do_DELETE=do_POST
     def log_message(self,fmt,*args):pass
+def upstream_diagnostic_check():
+    """Only a one-time read-only cloud connectivity check, never an API proxy."""
+    import urllib.request
+    import urllib.error
+    token = os.environ.get("PROOFLINE_STAGING_ANON_JWT", "")
+    if not token or len(token) > 8192:
+        return False
+    target = "https://pgknyzwctmfqvlivlgpe.supabase.co/functions/v1/proofline-staging-health/health"
+    request = urllib.request.Request(target, method="GET", headers={
+        "Authorization": "Bearer " + token,
+        "apikey": token,
+        "Accept": "application/json",
+    })
+    try:
+        with urllib.request.urlopen(request, timeout=8) as response:
+            if response.status != 200:
+                return False
+            body = json.loads(response.read(2048))
+            return body.get("state") == "sealed_controls_verified" and body.get("customer_intake") == "disabled"
+    except (urllib.error.URLError, OSError, ValueError, UnicodeError):
+        return False
+
 def main():
     if os.getenv("PROOFLINE_STAGE_MODE")!="sealed":
         raise SystemExit("Sealed staging only; refusing startup")
     port=int(os.environ.get("PORT","10000"))
     if not 1024<=port<=65535:raise SystemExit("Invalid port")
+    print("proofline_upstream_staging_db=" + ("verified" if upstream_diagnostic_check() else "unverified"), flush=True)
     ThreadingHTTPServer(("0.0.0.0",port),Handler).serve_forever()
 if __name__=="__main__":main()
