@@ -10,8 +10,11 @@ def require_secure_dsn(dsn):
     u=urlparse(dsn); q=parse_qs(u.query)
     if not all((u.hostname,u.username,u.password,u.path and u.path!="/")):
         raise ValueError("Incomplete database DSN")
-    if u.hostname!="db.pgknyzwctmfqvlivlgpe.supabase.co" or u.username!="proofline_stage_login":
-        raise ValueError("Unexpected database principal or host")
+    if u.username!="proofline_stage_login.pgknyzwctmfqvlivlgpe":
+        raise ValueError("Unexpected pooler principal")
+    expected=os.environ.get("PROOFLINE_POOLER_HOST","").lower()
+    if not expected.endswith(".pooler.supabase.com") or u.hostname != expected:
+        raise ValueError("Exact trusted pooler hostname required")
     if q.get("sslmode")!=["verify-full"] or q.get("sslrootcert")!=["system"]:
         raise ValueError("Strict TLS verification required")
     return dsn
