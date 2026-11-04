@@ -2,8 +2,10 @@
 
 Both owner-approved Gmail role aliases were confirmed through official Supabase
 emails. The user's browser then attempted localhost:3000; direct database inspection
-confirmed that both email verifications had succeeded. Redirect configuration remains
-an open usability issue; this record does not claim it was changed.
+confirmed that both email verifications had succeeded. On 2026-11-04, the Supabase
+ dashboard Site URL was changed to https://proofline-assurance-staging.vercel.app
+and verified after a full reload. No wildcard redirect URLs were added. Existing
+confirmations were not repeated; this verifies saved configuration, not a new email flow.
 
 The existing guarded enrollment SQL assigned distinct collector/reviewer roles to
 the two confirmed, unbanned, nonanonymous Auth subjects. No Auth confirmation field
