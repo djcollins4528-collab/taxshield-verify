@@ -1,0 +1,9 @@
+const HEADERS={'content-type':'text/html; charset=utf-8','cache-control':'no-store, private','x-content-type-options':'nosniff','x-frame-options':'DENY','referrer-policy':'no-referrer','permissions-policy':'camera=(), microphone=(), geolocation=(), payment=()'};
+Deno.serve(req=>{
+ const url=new URL(req.url);
+ if(req.method!=='GET')return new Response('Method not allowed',{status:405,headers:{'cache-control':'no-store'}});
+ if(url.pathname!=='/proofline-staging-review-workbench'&&url.pathname!=='/functions/v1/proofline-staging-review-workbench')return new Response('Not found',{status:404,headers:{'cache-control':'no-store'}});
+ const nonce=crypto.randomUUID().replace(/-/g,'');
+ const body=template.replaceAll('__NONCE__',nonce);
+ return new Response(body,{status:200,headers:{...HEADERS,'content-security-policy':"default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'self'; frame-ancestors 'none'; connect-src 'self'; img-src 'none'; style-src 'nonce-"+nonce+"'; script-src 'nonce-"+nonce+"'" }});
+});

@@ -9,7 +9,7 @@ el('artifactId').textContent=ARTIFACT;
 const endpoint={login:ROOT+'/auth/v1/token?grant_type=password',signout:ROOT+'/auth/v1/logout',
  read:ROOT+'/functions/v1/proofline-staging-review-report/report?artifact_id='+encodeURIComponent(ARTIFACT),
  decide:ROOT+'/functions/v1/proofline-staging-review-decisions/decide'};
-function status(message,kind){const node=el('status');node.textContent=message;node.className=kind?'notice '+kind:'notice';node.setAttribute('role',kind==='danger'?'alert':'status');}
+function status(message,kind){const node=el('status');node.setAttribute('role',kind==='danger'?'alert':'status');node.setAttribute('aria-live',kind==='danger'?'assertive':'polite');node.textContent=message;node.className=kind?'notice '+kind:'notice';}
 function clearStatus(){el('status').className='notice hide';el('status').textContent='';}
 function setBusy(b){state.loading=b;for(const id of ['signinButton','signoutButton','loadButton','submitDecision'])el(id).disabled=b;}
 function display(node,text){node.textContent=String(text??'Not recorded');}
@@ -39,10 +39,20 @@ function reset(){
  el('password').value='';el('rationale').value='';el('findings').replaceChildren();el('remediations').replaceChildren();
 }
 async function request(url,init){
- const res=await fetch(url,{...init,cache:'no-store',credentials:'omit',redirect:'error',referrerPolicy:'no-referrer'});
- let data;try{data=await res.json()}catch{throw Error('Invalid server response')}
- if(!res.ok)throw Error((res.status===401||res.status===403)?'Access denied. Check confirmed account, reviewer membership, and live session.':res.status===409?'This report already has a recorded decision.':res.status===404?'Report not found.':'Request failed ('+res.status+').');
- return data;
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
+ try{
+ const res=await fetch(url,{...init,signal:controller.signal,cache:'no-store',credentials:'omit',redirect:'error',referrerPolicy:'no-referrer'});
+ if(!res.ok){
+  if(res.status===401&&url!==endpoint.login&&url!==endpoint.signout){reset();el('email').focus();throw Error('Your session expired or was revoked. Sign in again.');}
+  throw Error((res.status===401||res.status===403)?'Access denied. Check confirmed account, reviewer membership, and live session.':res.status===409?'This report already has a recorded decision. Retrieve it again.':res.status===404?'Report not found.':res.status>=500?'Service unavailable. Try again shortly.':'Request failed ('+res.status+').');
+ }
+ if(url===endpoint.signout)return null;
+ try{return await res.json()}catch{throw Error('Invalid server response. Try again shortly.')}
+ }catch(err){
+  if(controller.signal.aborted)throw Error('Request timed out. Check your connection and try again.');
+  if(err instanceof TypeError)throw Error('Unable to reach the service. Check your connection and try again.');
+  throw err;
+ }finally{clearTimeout(timer)}
 }
 el('loginForm').addEventListener('submit',async ev=>{
  ev.preventDefault();clearStatus();setBusy(true);
@@ -52,9 +62,9 @@ el('loginForm').addEventListener('submit',async ev=>{
   state.token=data.access_token;state.user=data.user;el('password').value='';
   el('loginPanel').classList.add('hide');el('reviewPanel').classList.remove('hide');
   display(el('identity'),'Signed in as '+(data.user.email||'staging reviewer')+' (permissions checked on each request).');
-  status('Signed in. Retrieve the report to verify reviewer access.','success');el('loadButton').focus();
+  status('Signed in. Retrieve the report to verify reviewer access.','success');
  }catch(err){reset();status(err.message||'Unable to sign in.','danger')}
- finally{setBusy(false)}
+ finally{setBusy(false);if(state.token)el('loadButton').focus();else el('email').focus()}
 });
 el('loadButton').addEventListener('click',async()=>{
  if(!state.token)return;
@@ -80,7 +90,9 @@ el('decisionForm').addEventListener('submit',async ev=>{
 });
 el('signoutButton').addEventListener('click',async()=>{
  const token=state.token;reset();setBusy(true);
- try{if(token)await request(endpoint.signout,{method:'POST',headers:{'apikey':KEY,'authorization':'Bearer '+token}});}
- catch{}finally{setBusy(false);status('Signed out. The browser has discarded its session token.','success');el('email').focus()}
+ try{if(token)await request(endpoint.signout,{method:'POST',headers:{'apikey':KEY,'authorization':'Bearer '+token}});
+  status('Signed out. Server sign-out confirmed; this browser has discarded its session token.','success');
+ }catch{status('This browser has discarded its session token, but server sign-out could not be confirmed. Sign in again and retry sign-out; contact the staging administrator if this persists.','danger')}
+ finally{setBusy(false);el('email').focus()}
 });
 })();

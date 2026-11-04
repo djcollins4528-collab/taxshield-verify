@@ -13,7 +13,7 @@
 <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required maxlength="512" placeholder="Staging account password">
 <div class="actions"><button type="submit" id="signinButton">Sign in to staging</button></div></form>
 <p class="muted">Passwords are sent to Supabase Auth over HTTPS and are not stored by this page. No signup is provided.</p></section>
-<section id="reviewPanel" class="hide"><div class="actions" style="align-items:center;justify-content:space-between;margin:0 0 18px"><h2 style="margin:0">Review workspace</h2><button type="button" id="signoutButton" class="secondary">Sign out</button></div>
+<section id="reviewPanel" class="hide"><div class="actions review-heading"><h2>Review workspace</h2><button type="button" id="signoutButton" class="secondary">Sign out</button></div>
 <p id="identity" class="muted"></p><p class="muted">Synthetic artifact: <code id="artifactId"></code></p>
 <div class="actions"><button type="button" id="loadButton">Retrieve assessment</button></div>
 <div id="reportArea" class="hide" aria-live="polite" tabindex="-1">
