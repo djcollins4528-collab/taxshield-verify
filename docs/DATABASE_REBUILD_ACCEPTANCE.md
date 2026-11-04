@@ -16,6 +16,8 @@ TRUNCATE requires statement-level trigger coverage:
 https://www.postgresql.org/docs/17/sql-createtrigger.html
 
 ## Evidence
+- Implementation commit: 5044d05; hosted rebuild passes:
+  https://github.com/djcollins4528-collab/taxshield-verify/actions/runs/41847276588
 - Recovered source: 37 timestamped migrations with SHA-256 manifest.
 - Disposable, network-isolated PostgreSQL 17: 35 migrations replayed, 2 explicitly excluded pg_net operations.
 - Live catalog comparison: all 7 captured categories match (15 tables, 146 columns,
