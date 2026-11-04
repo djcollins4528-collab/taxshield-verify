@@ -4,11 +4,11 @@ on:
     paths:
       - 'proofline-stage/ci/live_auth_acceptance*.mjs'
       - 'proofline-stage/ci/request_official_test_signups*.mjs'
-      - 'proofline-stage/ci/request_official_test_signups*.mjs'
       - '.github/workflows/proofline-auth-e2e.yml'
   push:
     paths:
       - 'proofline-stage/ci/live_auth_acceptance*.mjs'
+      - 'proofline-stage/ci/request_official_test_signups*.mjs'
       - '.github/workflows/proofline-auth-e2e.yml'
   workflow_dispatch:
 permissions:
