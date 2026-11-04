@@ -1,6 +1,10 @@
 # Proofline changelog
 
 ## 2026-11-04
+- Added operator-only real browser/API review acceptance; 25 checks passed and one
+  changes_requested decision persisted, with immutable draft and release lock intact.
+- Corrected stale production records to distinguish confirmed owner-controlled Auth
+  acceptance from still-missing independent human review and end-to-end delivery.
 - Recovered 37 recorded migrations; added isolated rebuild, live-catalog comparison,
   checksum manifest and 21 SQL/4 Python security acceptance assertions.
 - Deployed five missing ledger TRUNCATE guards and complete report JSON constraint.

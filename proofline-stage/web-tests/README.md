@@ -1,5 +1,18 @@
 # Proofline workbench browser acceptance
 
+## Real staging decision acceptance (operator only)
+
+`node live-review-acceptance.mjs` uses the existing approved credentials/environment
+from `ci/live_auth_acceptance.mjs`. Set `PROOFLINE_RECORD_SYNTHETIC_REVIEW=yes` to opt
+in to one permanent synthetic changes_requested decision on the pinned staging draft.
+Set `PROOFLINE_ACCEPTANCE_OUTPUT` to an operator-selected JSON receipt path if needed.
+Do not put credentials in Git, command arguments, traces or screenshots. This runner
+is deliberately excluded from normal Playwright test discovery and CI; it requires
+real accounts. Reruns verify the existing decision instead of mutating it. It closes
+sessions even after assertion failures. Never delete the review to make a rerun pass.
+
+## Rendering and mocked UI regression suite
+
 Run `npm ci`, `npx playwright install chromium webkit`, then `npm test` here.
 Default target is the local recovered workbench with its real CSP headers.
 Set PROOFLINE_BROWSER_URL to https://proofline-assurance-staging.vercel.app for deployed acceptance.

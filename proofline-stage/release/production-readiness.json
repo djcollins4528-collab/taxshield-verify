@@ -36,19 +36,19 @@
       "id": "real_collector_auth",
       "status": "blocked",
       "evidence_url": null,
-      "detail": "No genuine collector Auth user or positive sign-in acceptance"
+      "detail": "Confirmed owner-controlled collector passed real staging Auth and browser acceptance; independent production operating acceptance remains unverified"
     },
     {
       "id": "real_reviewer_auth",
       "status": "blocked",
       "evidence_url": null,
-      "detail": "No genuine reviewer Auth user or positive sign-in acceptance"
+      "detail": "Confirmed owner-controlled reviewer passed real staging Auth, report and decision acceptance; independent human reviewer acceptance remains unverified"
     },
     {
       "id": "live_auth_revocation",
       "status": "blocked",
       "evidence_url": null,
-      "detail": "No revoked genuine Supabase session acceptance"
+      "detail": "Real owner-controlled staging session revocation passed; production-environment acceptance remains unverified"
     },
     {
       "id": "customer_end_to_end_delivery",
