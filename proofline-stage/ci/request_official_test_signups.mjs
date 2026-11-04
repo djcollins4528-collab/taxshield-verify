@@ -1,3 +1,4 @@
+import {validateTestMailboxes} from './test_mailbox_policy.mjs';
 // Owner-run ONLY: request email confirmation via official Supabase Auth signup.
 // This is never a public HTTP endpoint, and it does not create memberships.
 export const STAGING='https://pgknyzwctmfqvlivlgpe.supabase.co';
