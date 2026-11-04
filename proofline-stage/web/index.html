@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proofline | Staging Reviewer Workbench</title>
+<link rel="stylesheet" href="/styles.css"></head>
+<body>
+<a class=skip-link href=#main-content>Skip to main content</a>
+<header><div><span class="eyebrow">PROOFLINE / ASSURANCE</span><div class="muted">Staging reviewer workbench</div></div><span class="tag">INTERNAL TEST ONLY</span></header>
+<main id=main-content tabindex=-1>
+<div class="lead"><span class="eyebrow">Evidence-backed review</span><h1>Assessment review workbench</h1><p>Review the immutable synthetic assessment draft and record a controlled decision. This is not a customer portal or production assessment system.</p></div>
+<div class="notice"><strong>Release locked.</strong> Synthetic assessments cannot be approved or delivered. New account registration, customer intake, billing and report distribution are unavailable.</div>
+<section id="loginPanel"><h2>Reviewer sign-in</h2><p>Use an existing confirmed staging reviewer account. Sign-in does not grant reviewer access by itself.</p>
+<form id="loginForm" autocomplete="on"><label for="email">Staging email</label><input id="email" type="email" autocomplete="username" required maxlength="254" placeholder="reviewer@example.org">
+<label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required maxlength="512" placeholder="Staging account password">
+<div class="actions"><button type="submit" id="signinButton">Sign in to staging</button></div></form>
+<p class="muted">Passwords are sent to Supabase Auth over HTTPS and are not stored by this page. No signup is provided.</p></section>
+<section id="reviewPanel" class="hide"><div class="actions" style="align-items:center;justify-content:space-between;margin:0 0 18px"><h2 style="margin:0">Review workspace</h2><button type="button" id="signoutButton" class="secondary">Sign out</button></div>
+<p id="identity" class="muted"></p><p class="muted">Synthetic artifact: <code id="artifactId"></code></p>
+<div class="actions"><button type="button" id="loadButton">Retrieve assessment</button></div>
+<div id="reportArea" class="hide" aria-live="polite" tabindex="-1">
+<div class="panel"><h3 id="headline"></h3><p id="summary"></p><div class="kv">SHA-256: <code id="fingerprint"></code></div><p class="muted">Status: <strong>DRAFT_NOT_APPROVED</strong> · Customer delivery: <strong>BLOCKED</strong></p></div>
+<div class="columns"><div><h2>Findings</h2><div id="findings"></div></div><div><h2>Remediation plan</h2><div id="remediations"></div></div></div>
+<div class="panel"><h3>Review outcome</h3><p id="decisionStatus"></p>
+<form id="decisionForm"><label for="decision">Decision</label><select id="decision" required><option value="changes_requested">Request changes</option><option value="rejected">Reject draft</option></select>
+<label for="rationale">Rationale (15–2000 characters)</label><textarea id="rationale" required minlength="15" maxlength="2000" rows="5" placeholder="Describe the changes required and the basis for your review."></textarea>
+<div class="actions"><button type="submit" id="submitDecision">Record decision</button></div></form>
+</div></div></section>
+<div id="status" class="notice hide" role="status" aria-live="polite"></div>
+<footer>Proofline Assurance · Staging tenant only · No customer access, approval or payment collection</footer></main>
+<script src="/workbench.js" defer></script></body></html>
