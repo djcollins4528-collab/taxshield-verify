@@ -29,3 +29,8 @@ repository. Existing Auth/health files matched deployed source; 11 missing funct
 were recovered verbatim. The workbench is generated from shared frontend assets.
 This is source recovery only, not certification of each recovered function or a full
 schema/migration reconciliation. No recovered backend function was redeployed.
+
+Hosted CI: commit 04493d7 passed browser tests and generated-source consistency check.
+https://github.com/djcollins4528-collab/taxshield-verify/actions/runs/41842769701
+Sealed staging CI also passed: https://github.com/djcollins4528-collab/taxshield-verify/actions/runs/41842769629
+The initial ee8b075 CI run exposed a CRLF/LF generator mismatch; 04493d7 normalizes input line endings and passes. Later ba226cf changes inventory and documentation only.
