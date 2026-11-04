@@ -1,0 +1,155 @@
+{
+  "project": "pgknyzwctmfqvlivlgpe",
+  "source": "supabase_migrations.schema_migrations",
+  "observed_date": "2026-11-04",
+  "migrations": [
+    {
+      "file": "20261103014824_proofline_private_staging_custody_v1.sql",
+      "sha256_lf": "276d40175131886261b4819cf704792fb82ecb93760a483405b60a81e70c93f8"
+    },
+    {
+      "file": "20261103014933_proofline_custody_event_contract_v1.sql",
+      "sha256_lf": "3c1bad2bc1b85a52a0e5ff74b591c40b7ab1091441fd9c50e37204906250842a"
+    },
+    {
+      "file": "20261103020750_proofline_staging_nologin_runtime_role.sql",
+      "sha256_lf": "552fd3a18948a4b2db592e21f938d11944712f1a950aa9371a7d69d8d496fa98"
+    },
+    {
+      "file": "20261103022405_proofline_enforce_append_only_event_sequence.sql",
+      "sha256_lf": "136566352ecd8fb04673382a639eff9be1dd033150d190db2ac9fd32194f97ca"
+    },
+    {
+      "file": "20261103022843_proofline_synthetic_probe_tenant_only.sql",
+      "sha256_lf": "79f50b83a1ee2e7e0fee7539fe142c3bdc4b23905e848a7be1e6ce1780aa7335"
+    },
+    {
+      "file": "20261103023012_proofline_prepare_restricted_login_disabled.sql",
+      "sha256_lf": "1a96143056308dc9d19e434bb77d102e33ee8371c019aef70e1c656ee7917b53"
+    },
+    {
+      "file": "20261103023442_proofline_enforce_independent_review_reference.sql",
+      "sha256_lf": "b6ee9bb6cc0f27ab5179597cae8575b3e21f22bf867a16fffd00ba1eed879cca"
+    },
+    {
+      "file": "20261103102935_proofline_membership_fk_to_verified_auth_user.sql",
+      "sha256_lf": "35d596d9e9fd53faf494021c63c61baec6e4ddfecb6783b2ca6a06ae41f79f2d"
+    },
+    {
+      "file": "20261103103447_enforce_identity_separation_of_duties.sql",
+      "sha256_lf": "0adb6b68c38b374f03310bff83d8f3b0e901a47d15987a96bfb2afef0faa68c9"
+    },
+    {
+      "file": "20261103152037_proofline_single_use_identity_rehearsal_lock.sql",
+      "sha256_lf": "96f520f502bc225350304945d906d09049df12ab9eb64da47aeaaf59d8d67193"
+    },
+    {
+      "file": "20261103154351_proofline_one_review_per_evidence.sql",
+      "sha256_lf": "86ac6ff4bbba13afa436342a5f07c6f8ff82526e9885b74b753848dce1732069"
+    },
+    {
+      "file": "20261103154740_proofline_immutable_custody_event_guards.sql",
+      "sha256_lf": "e0b7f0592f6f24a53f441b671df787257f8678fdcd7f7353e22f90daf0c0f3ba"
+    },
+    {
+      "file": "20261103202215_proofline_stage_tenant_isolation_restrictive_rls.sql",
+      "sha256_lf": "064d6b115e52ae24afe653b3ff915480a5340f9ac87b6e19bf004a2257e4aeab"
+    },
+    {
+      "file": "20261103224422_proofline_runtime_active_membership_role_guard.sql",
+      "sha256_lf": "3cd0a7b4680f876806ef237240b879a17e3919717ac10fdeb4f099e692657a6e"
+    },
+    {
+      "file": "20261103235233_proofline_unique_role_per_auth_user_per_tenant.sql",
+      "sha256_lf": "bd48ec78da7374b366c50a878e399a301eb84e448c9d30a90a8957c8d2471acd"
+    },
+    {
+      "file": "20261104004633_proofline_fail_closed_staging_role_rls.sql",
+      "sha256_lf": "1e548203e3beb95dc7e4fb2113942da6344c6fd7c5de257f61a4121e60412e78"
+    },
+    {
+      "file": "20261104004652_proofline_required_permissive_rls_base.sql",
+      "sha256_lf": "01ac32c18049be018a447107fdabebe4c51422c2cf3432f8ecef3c5e8909660b"
+    },
+    {
+      "file": "20261104014805_proofline_membership_revocation_audit_log.sql",
+      "sha256_lf": "cb03009978b20c834c2f17b1bf92d01a111c9f3badc687150ad2a4945248824b"
+    },
+    {
+      "file": "20261104015459_proofline_private_verified_enrollment_revocation.sql",
+      "sha256_lf": "1f5ac2499c94ef9a643b3bb02fb154ecb43db80272e068b96248d2ea2dd80ac4"
+    },
+    {
+      "file": "20261104022250_proofline_staging_release_preflight_gate.sql",
+      "sha256_lf": "6a7724f2b2624652b0fa6a976d72ad1b6a339bb5ac776ec305ec9571aff7dd19"
+    },
+    {
+      "file": "20261104022318_proofline_fail_closed_release_assertion.sql",
+      "sha256_lf": "6e5572956f6a980da218dde8deae982b6413f559333f43066e3c8da195e8a6c6"
+    },
+    {
+      "file": "20261104024457_proofline_synthetic_evidence_handoff_manifest_v1.sql",
+      "sha256_lf": "c17a0417956aa0c45c44f0d0636c44b9e9f8730b4033f41beacaa4e8bb868fda"
+    },
+    {
+      "file": "20261104024639_proofline_synthetic_assessment_draft_contract_v1.sql",
+      "sha256_lf": "8ba9a1a6c352c67fa7e82d0d119b946cb6b003b48594c977730fc6a64950fbcd"
+    },
+    {
+      "file": "20261104025247_proofline_immutable_synthetic_report_artifacts.sql",
+      "sha256_lf": "ab149655b7a49eecb9e821c44082145aa0b05008b115d2f0efec62edc8cd0690"
+    },
+    {
+      "file": "20261104025434_proofline_verified_reviewer_decision_ledger_v1.sql",
+      "sha256_lf": "11094c88568bf635963bfb9885f78403552b776cae532bec9c9ec34ebe2f33eb"
+    },
+    {
+      "file": "20261104030721_proofline_release_gate_excludes_synthetic_auth_identities.sql",
+      "sha256_lf": "6fdb065a652883410737b91dd717859220ffa0f96d4a24353be5d5514d77aa96"
+    },
+    {
+      "file": "20261104032328_proofline_quarantine_synthetic_acceptance_evidence_v1.sql",
+      "sha256_lf": "584cc183004fc1e122a2257aaaf4628525ebb7290c6a46e35895e6ccc48ee026"
+    },
+    {
+      "file": "20261104032610_proofline_private_server_observed_http_rehearsals.sql",
+      "sha256_lf": "252a7e5fc29f2907f68a343920fbd1725ed3e1383f76ca6353951ef8a9c17d09"
+    },
+    {
+      "file": "20261104033216_proofline_enable_async_http_for_staging_acceptance.sql",
+      "sha256_lf": "780b704d3e831f9c735a90bd91b54a5b40610fe203e2c1cff88d70d224a79c5f"
+    },
+    {
+      "file": "20261104033251_proofline_one_time_database_dispatch_ticket_v1.sql",
+      "sha256_lf": "a74fc05a730ec421e300a7789bb21d84386cb5722daad2b67173b13ad74215c6"
+    },
+    {
+      "file": "20261104033455_proofline_http_rehearsal_diagnostic_observations.sql",
+      "sha256_lf": "4d2a15938eb6a0eafb216910060c49248fafb4b955825aed8cd55659f317bca6"
+    },
+    {
+      "file": "20261104033641_proofline_rehearsal_server_timestamp_tolerance_v1.sql",
+      "sha256_lf": "807a2943fbcc3e8a47491a3a502948909ce5ee26f2009c92db535aa941f7c059"
+    },
+    {
+      "file": "20261104042109_proofline_strict_one_time_synthetic_auth_cleanup.sql",
+      "sha256_lf": "ef77f9fab35622233a2ab222eea47c1f349308a97b9ec594986dcd461d0089c3"
+    },
+    {
+      "file": "20261104042220_proofline_membership_audit_safe_auth_fk_cascade.sql",
+      "sha256_lf": "1bde3cc3b34b6fe5e1f63a2662fb7536e36f6e5db8dd6f1371a124bb0a275a69"
+    },
+    {
+      "file": "20261104123919_proofline_frontend_smoke_bounded_ticket_v1.sql",
+      "sha256_lf": "891f1e84fe760033ae308b89f8b45926da78ad100213f90b583a78bf10ce61fd"
+    },
+    {
+      "file": "20261104125203_proofline_pg_net_extension_registration_hardening.sql",
+      "sha256_lf": "7efe8e2fcabe596d45f1ade3ace5a31be7b65a32ba2170e005643fd3702edb26"
+    },
+    {
+      "file": "20261104142004_proofline_append_only_truncate_and_complete_report_contract.sql",
+      "sha256_lf": "ecadfe267eb9d4ead14820d8afc6e551becffbc8c7c0a950c648f9df4105e340"
+    }
+  ]
+}

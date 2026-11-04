@@ -1,0 +1,8 @@
+DROP POLICY IF EXISTS proofline_stage_membership_read ON proofline_private.memberships;
+DROP POLICY IF EXISTS proofline_stage_tenant_read ON proofline_private.tenants;
+DROP POLICY IF EXISTS proofline_stage_events_read ON proofline_private.custody_events;
+DROP POLICY IF EXISTS proofline_stage_events_insert ON proofline_private.custody_events;
+CREATE POLICY proofline_membership_identity_required ON proofline_private.memberships AS RESTRICTIVE FOR SELECT TO proofline_stage_runtime USING (active AND auth_user_id::text = nullif(current_setting('proofline.auth_user_id', true),''));
+CREATE POLICY proofline_tenant_membership_required ON proofline_private.tenants AS RESTRICTIVE FOR SELECT TO proofline_stage_runtime USING (EXISTS (SELECT 1 FROM proofline_private.memberships m WHERE m.tenant_id = tenants.id AND m.active AND m.auth_user_id::text = nullif(current_setting('proofline.auth_user_id', true),'')));
+CREATE POLICY proofline_custody_membership_required ON proofline_private.custody_events AS RESTRICTIVE FOR SELECT TO proofline_stage_runtime USING (EXISTS (SELECT 1 FROM proofline_private.memberships m WHERE m.tenant_id = custody_events.tenant_id AND m.active AND m.auth_user_id::text = nullif(current_setting('proofline.auth_user_id', true),'')));
+CREATE POLICY proofline_custody_actor_role_required ON proofline_private.custody_events AS RESTRICTIVE FOR INSERT TO proofline_stage_runtime WITH CHECK (actor = nullif(current_setting('proofline.auth_user_id', true),'') AND EXISTS (SELECT 1 FROM proofline_private.memberships m WHERE m.tenant_id = custody_events.tenant_id AND m.active AND m.auth_user_id::text = nullif(current_setting('proofline.auth_user_id', true),'') AND m.role = custody_events.role));

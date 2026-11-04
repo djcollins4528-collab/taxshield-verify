@@ -1,6 +1,10 @@
 # Proofline changelog
 
 ## 2026-11-04
+- Recovered 37 recorded migrations; added isolated rebuild, live-catalog comparison,
+  checksum manifest and 21 SQL/4 Python security acceptance assertions.
+- Deployed five missing ledger TRUNCATE guards and complete report JSON constraint.
+- Post-change live synthetic HTTP rehearsal passed 17/17 with cleanup confirmed.
 - Identified historical repository and separated marketing, sealed gateway and live workbench.
 - Recovered Vercel source with exact deployment-source hash matches (9dfdaec).
 - Added Chromium/WebKit browser acceptance and session/error regression tests.
