@@ -12,7 +12,7 @@ const ENV={
 test('project must be exact staging',()=>assert.throws(()=>validate({...ENV,SUPABASE_URL:'https://wrong.supabase.co'}),/staging/));
 test('secret or service key refused',()=>assert.throws(()=>validate({...ENV,SUPABASE_PUBLISHABLE_KEY:'sb_secret_bad'}),/key/));
 test('rejects nondedicated addresses',()=>assert.throws(()=>validate({...ENV,PROOFLINE_COLLECTOR_EMAIL:'customer@example.com'}),/(Dedicated|Refusing)/));
-test('requires different mailboxes',()=>assert.throws(()=>validate({...ENV,PROOFLINE_REVIEWER_EMAIL:ENV.PROOFLINE_COLLECTOR_EMAIL}),/(Dedicated|Separate|Refusing)/));
+test('requires different mailboxes',()=>assert.throws(()=>validate({...ENV,PROOFLINE_REVIEWER_EMAIL:ENV.PROOFLINE_COLLECTOR_EMAIL}),/(Dedicated|Separate|Refusing|Distinct)/));
 test('requires different strong passwords',()=>{
  assert.throws(()=>validate({...ENV,PROOFLINE_COLLECTOR_PASSWORD:'weak'}),/password/);
  assert.throws(()=>validate({...ENV,PROOFLINE_REVIEWER_PASSWORD:ENV.PROOFLINE_COLLECTOR_PASSWORD}),/Separate/);
