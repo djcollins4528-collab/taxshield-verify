@@ -45,3 +45,7 @@ Remaining work: authenticated staging API and browser submission/review history,
 genuine session acceptance for followups, verified external evidence and independent
 reviewer acceptance, then synthetic handoff and sandbox billing reconciliation.
 Customer intake, live billing, delivery and all broad production gates remain blocked.
+
+Post-deployment existing-workflow regression: 24 live Chromium/WebKit API/browser
+checks passed at 20:11 UTC. Report access, immutable decision, role denial and
+revocation behavior remain intact. This does not claim live followup API acceptance.
