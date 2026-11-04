@@ -1,0 +1,36 @@
+name: Proofline production release decision
+on:
+  pull_request:
+    paths:
+      - 'proofline-stage/release/**'
+      - '.github/workflows/proofline-release-decision.yml'
+  push:
+    paths:
+      - 'proofline-stage/release/**'
+      - '.github/workflows/proofline-release-decision.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate declared release evidence and fail-closed rules
+        run: node --test proofline-stage/release/release_gate.test.mjs
+      - name: Publish current explicit HOLD verdict
+        run: node proofline-stage/release/release_gate.mjs
+      - name: Confirm customer production is not yet GO
+        run: |
+          if node proofline-stage/release/release_gate.mjs --require-go > /tmp/proofline-go-verdict.txt 2>&1; then
+            echo 'ERROR: No-go manifest falsely authorized production'
+            exit 1
+          fi
+          grep -F 'PROOFLINE_RELEASE_DECISION=NO_GO' /tmp/proofline-go-verdict.txt
+          grep -F 'PRODUCTION_ACTIVATION=disabled' /tmp/proofline-go-verdict.txt
+          grep -F 'CUSTOMER_INTAKE=disabled' /tmp/proofline-go-verdict.txt
+          grep -F 'LIVE_BILLING=disabled' /tmp/proofline-go-verdict.txt
