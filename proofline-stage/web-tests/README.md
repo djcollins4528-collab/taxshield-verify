@@ -10,6 +10,8 @@ No credentials, persistent sessions, or traces are recorded. Results and screens
 are written to results/. Automated axe results do not establish WCAG conformance.
 WebKit on Windows uses different default keyboard navigation preferences; the skip
 link is explicitly focused before Enter. Full Safari hardware acceptance remains open.
+Windows WebKit also emits a native select-control CSP style warning with no inline
+DOM style attributes; the policy remains strict. See docs/DEPLOYMENT_ACCEPTANCE.md.
 
 Edit ../web/; run `npm run build:edge` to regenerate the existing Supabase HTML endpoint.
 Only deploy those four web files to the existing Proofline staging Vercel project.

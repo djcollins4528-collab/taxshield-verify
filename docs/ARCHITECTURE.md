@@ -25,6 +25,7 @@ Confirmed active topology:
   SUPABASE_SERVICE_ROLE_KEY, SUPABASE_DB_URL. Values were not exported.
 - Existing Render gateway is historically sealed; its current state is not reverified.
 
-CI exists for public pages, sealed gateway, Auth policy, enrollment, recovery and
-release decisions. Full current Edge source/migration reconciliation is still needed.
+CI exists for public pages, sealed gateway, Auth policy, enrollment, recovery,
+release decisions and Chromium/WebKit regressions. All 14 active Edge Functions are
+now recovered or matched to source; schema/migration reconciliation is still needed.
 No new framework, paid service, database, Git linkage or customer tenant was created.
