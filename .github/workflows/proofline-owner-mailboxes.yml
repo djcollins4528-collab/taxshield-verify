@@ -1,0 +1,23 @@
+name: Proofline owner mailbox alias validation
+on:
+  pull_request:
+    paths:
+      - 'proofline-stage/ci/test_mailbox_policy*.mjs'
+      - '.github/workflows/proofline-owner-mailboxes.yml'
+  push:
+    paths:
+      - 'proofline-stage/ci/test_mailbox_policy*.mjs'
+      - '.github/workflows/proofline-owner-mailboxes.yml'
+permissions:
+  contents: read
+jobs:
+  alias-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test owner-controlled role-specific alias constraints
+        run: node --test proofline-stage/ci/test_mailbox_policy.test.mjs
