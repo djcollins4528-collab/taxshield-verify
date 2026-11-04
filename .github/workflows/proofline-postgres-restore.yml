@@ -80,6 +80,28 @@ jobs:
             echo "FAIL: repeat enrollment succeeded"; exit 1
           fi
           test "$(psql -Atqc "SELECT count(*) FROM proofline_private.memberships")" = "2"
+      - name: Verify owner Gmail aliases enroll distinct confirmed users only
+        run: |
+          set -euo pipefail
+          psql -X -v ON_ERROR_STOP=1 <<'SQL'
+          DELETE FROM proofline_private.memberships;
+          UPDATE auth.users SET email='sample.owner+proofline-collector-test@gmail.com'
+           WHERE id='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+          UPDATE auth.users SET email='sample.owner+proofline-reviewer-test@gmail.com'
+           WHERE id='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+          SQL
+          script=proofline-stage/ci/enroll_existing_auth_test_users.sql
+          if psql -X -v ON_ERROR_STOP=1 \
+            -v collector_email=sample.owner+proofline-collector-test@gmail.com \
+            -v reviewer_email=another.owner+proofline-reviewer-test@gmail.com \
+            -f "$script" >/dev/null 2>&1; then
+            echo "FAIL: mismatched owner aliases accepted"; exit 1
+          fi
+          psql -X -v ON_ERROR_STOP=1 \
+            -v collector_email=sample.owner+proofline-collector-test@gmail.com \
+            -v reviewer_email=sample.owner+proofline-reviewer-test@gmail.com \
+            -f "$script"
+          test "$(psql -Atqc "SELECT count(DISTINCT auth_user_id) FROM proofline_private.memberships WHERE active")" = "2"
       - name: Verify resulting table is nonempty
         run: |
           test "$(psql -Atqc 'SELECT count(*) FROM recovery_acceptance.custody_events')" = "2"
