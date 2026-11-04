@@ -1,0 +1,36 @@
+name: Proofline public staging remains sealed
+on:
+  push:
+    paths:
+      - 'proofline-stage/ci/public_seal_smoke*.mjs'
+      - '.github/workflows/proofline-public-seal.yml'
+  pull_request:
+    paths:
+      - 'proofline-stage/ci/public_seal_smoke*.mjs'
+      - '.github/workflows/proofline-public-seal.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    name: offline fail-closed checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test proofline-stage/ci/public_seal_smoke.test.mjs
+  public-ingress:
+    name: live anonymous denial checks
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify sealed Render and denied anonymous Supabase Auth
+        run: node proofline-stage/ci/public_seal_smoke.mjs
