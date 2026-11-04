@@ -150,6 +150,10 @@
     {
       "file": "20261104142004_proofline_append_only_truncate_and_complete_report_contract.sql",
       "sha256_lf": "ecadfe267eb9d4ead14820d8afc6e551becffbc8c7c0a950c648f9df4105e340"
+    },
+    {
+      "sha256_lf": "377b95c4f4756f9f8300c3f851fd8b46d9f838afde2f15b4ab39fb125061dfc2",
+      "file": "20261104200937_proofline_synthetic_finding_followups_v1.sql"
     }
   ]
 }

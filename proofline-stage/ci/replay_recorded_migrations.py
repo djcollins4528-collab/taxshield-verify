@@ -10,6 +10,7 @@ import subprocess
 import time
 import uuid
 import hashlib
+import argparse
 
 ROOT = Path(__file__).resolve().parents[1]
 IMAGE = 'postgres@sha256:18cfe3ef5e6815560c98237d6216d1e5119702fb0f3894c8785dd58b8bbe5d73'
@@ -39,6 +40,9 @@ def verified_migrations(directory):
     return files
 
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--candidate',type=Path,help='Apply one local candidate after baseline catalog comparison')
+    args=parser.parse_args()
     name = 'proofline-migration-replay-' + uuid.uuid4().hex[:12]
     report = {'classification': 'SYNTHETIC_LOCAL_ONLY', 'applied': [], 'excluded': SKIP,
               'auth_service_verified': False, 'network_dispatch_verified': False}
@@ -70,7 +74,12 @@ def main():
             report['schema_differences']={key:{'expected_only':[v for v in expected[key] if v not in inventory[key]],'replay_only':[v for v in inventory[key] if v not in expected[key]]} for key,match in report['schema_matches'].items() if not match}
             raise ValueError('Replayed schema differs from live catalog inventory')
         acceptance=ROOT/'ci'/'replay_acceptance.sql'
+        if args.candidate:
+            sql(args.candidate.read_text(encoding='utf-8'))
+            report['candidate']=str(args.candidate)
         report['acceptance'] = sql(acceptance.read_text(encoding='utf-8'))
+        if sql("SELECT to_regclass('proofline_private.finding_followups') IS NOT NULL")=='t':
+            report['followup_acceptance']=sql((ROOT/'ci'/'replay_followup_acceptance.sql').read_text(encoding='utf-8'))
         report['status']='PASSED_SCOPED_REPLAY'
     except subprocess.CalledProcessError as exc:
         report['status']='FAILED';report['error']=exc.stderr[-4000:];report['observations']=exc.stdout[-5000:]

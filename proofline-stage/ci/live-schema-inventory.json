@@ -186,6 +186,41 @@
       "UPDATE"
     ],
     [
+      "finding_followups",
+      "postgres",
+      "DELETE"
+    ],
+    [
+      "finding_followups",
+      "postgres",
+      "INSERT"
+    ],
+    [
+      "finding_followups",
+      "postgres",
+      "REFERENCES"
+    ],
+    [
+      "finding_followups",
+      "postgres",
+      "SELECT"
+    ],
+    [
+      "finding_followups",
+      "postgres",
+      "TRIGGER"
+    ],
+    [
+      "finding_followups",
+      "postgres",
+      "TRUNCATE"
+    ],
+    [
+      "finding_followups",
+      "postgres",
+      "UPDATE"
+    ],
+    [
       "frontend_smoke_runs",
       "postgres",
       "DELETE"
@@ -573,6 +608,11 @@
       false
     ],
     [
+      "finding_followups",
+      true,
+      false
+    ],
+    [
       "frontend_smoke_runs",
       true,
       false
@@ -917,6 +957,125 @@
       "timestamp with time zone",
       "NO",
       "now()"
+    ],
+    [
+      "finding_followups",
+      "id",
+      "uuid",
+      "NO",
+      "gen_random_uuid()"
+    ],
+    [
+      "finding_followups",
+      "tenant_id",
+      "uuid",
+      "NO",
+      null
+    ],
+    [
+      "finding_followups",
+      "artifact_id",
+      "uuid",
+      "NO",
+      null
+    ],
+    [
+      "finding_followups",
+      "review_decision_id",
+      "uuid",
+      "NO",
+      null
+    ],
+    [
+      "finding_followups",
+      "artifact_sha256",
+      "text",
+      "NO",
+      null
+    ],
+    [
+      "finding_followups",
+      "finding_id",
+      "text",
+      "NO",
+      null
+    ],
+    [
+      "finding_followups",
+      "sequence",
+      "integer",
+      "NO",
+      null
+    ],
+    [
+      "finding_followups",
+      "previous_id",
+      "uuid",
+      "YES",
+      null
+    ],
+    [
+      "finding_followups",
+      "kind",
+      "text",
+      "NO",
+      null
+    ],
+    [
+      "finding_followups",
+      "actor_id",
+      "uuid",
+      "NO",
+      null
+    ],
+    [
+      "finding_followups",
+      "session_id",
+      "uuid",
+      "NO",
+      null
+    ],
+    [
+      "finding_followups",
+      "outcome",
+      "text",
+      "YES",
+      null
+    ],
+    [
+      "finding_followups",
+      "evidence",
+      "jsonb",
+      "NO",
+      null
+    ],
+    [
+      "finding_followups",
+      "evidence_sha256",
+      "text",
+      "NO",
+      null
+    ],
+    [
+      "finding_followups",
+      "created_at",
+      "timestamp with time zone",
+      "NO",
+      "clock_timestamp()"
+    ],
+    [
+      "finding_followups",
+      "classification",
+      "text",
+      "NO",
+      "'SYNTHETIC_STAGING_ONLY'::text"
+    ],
+    [
+      "finding_followups",
+      "customer_delivery_allowed",
+      "boolean",
+      "NO",
+      "false"
     ],
     [
       "frontend_smoke_runs",
@@ -1842,6 +2001,16 @@
       "CREATE TRIGGER proofline_custody_reject_truncate BEFORE TRUNCATE ON proofline_private.custody_events FOR EACH STATEMENT EXECUTE FUNCTION proofline_private.reject_custody_mutation_v1()"
     ],
     [
+      "finding_followups",
+      "proofline_followup_guard",
+      "CREATE TRIGGER proofline_followup_guard BEFORE INSERT OR DELETE OR UPDATE ON proofline_private.finding_followups FOR EACH ROW EXECUTE FUNCTION proofline_private.guard_finding_followup_v1()"
+    ],
+    [
+      "finding_followups",
+      "proofline_followup_no_truncate",
+      "CREATE TRIGGER proofline_followup_no_truncate BEFORE TRUNCATE ON proofline_private.finding_followups FOR EACH STATEMENT EXECUTE FUNCTION proofline_private.reject_ledger_truncate_v1()"
+    ],
+    [
       "membership_change_log",
       "proofline_membership_log_immutable",
       "CREATE TRIGGER proofline_membership_log_immutable BEFORE DELETE OR UPDATE ON proofline_private.membership_change_log FOR EACH ROW EXECUTE FUNCTION proofline_private.reject_membership_log_change_v1()"
@@ -1929,6 +2098,15 @@
       "enroll_staging_member_v1",
       "p_auth_user_id uuid, p_role text",
       "d525fce1b988aeb791612ffdf6edd778",
+      false,
+      [
+        "search_path=\"\""
+      ]
+    ],
+    [
+      "guard_finding_followup_v1",
+      "",
+      "f7e424ac26800b542596d91d78def489",
       false,
       [
         "search_path=\"\""
@@ -2271,6 +2449,91 @@
     [
       "evidence",
       "evidence_tenant_id_fkey",
+      "FOREIGN KEY (tenant_id) REFERENCES proofline_private.tenants(id)"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_actor_id_fkey",
+      "FOREIGN KEY (actor_id) REFERENCES auth.users(id)"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_artifact_id_finding_id_sequence_key",
+      "UNIQUE (artifact_id, finding_id, sequence)"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_artifact_id_fkey",
+      "FOREIGN KEY (artifact_id) REFERENCES proofline_private.report_artifacts(id)"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_artifact_sha256_check",
+      "CHECK ((artifact_sha256 ~ '^[0-9a-f]{64}$'::text))"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_check",
+      "CHECK ((((kind = 'remediation'::text) AND (outcome IS NULL)) OR ((kind = 'reverification'::text) AND (outcome IS NOT NULL) AND (outcome = ANY (ARRAY['PASS'::text, 'FAIL'::text, 'INCONCLUSIVE'::text, 'NOT_TESTED'::text, 'NOT_APPLICABLE'::text])))))"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_classification_check",
+      "CHECK ((classification = 'SYNTHETIC_STAGING_ONLY'::text))"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_customer_delivery_allowed_check",
+      "CHECK ((customer_delivery_allowed = false))"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_evidence_check",
+      "CHECK ((octet_length((evidence)::text) <= 16384))"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_evidence_sha256_check",
+      "CHECK ((evidence_sha256 ~ '^[0-9a-f]{64}$'::text))"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_finding_id_check",
+      "CHECK (((length(finding_id) >= 1) AND (length(finding_id) <= 100)))"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_kind_check",
+      "CHECK ((kind = ANY (ARRAY['remediation'::text, 'reverification'::text])))"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_pkey",
+      "PRIMARY KEY (id)"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_previous_id_fkey",
+      "FOREIGN KEY (previous_id) REFERENCES proofline_private.finding_followups(id)"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_previous_id_key",
+      "UNIQUE (previous_id)"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_review_decision_id_fkey",
+      "FOREIGN KEY (review_decision_id) REFERENCES proofline_private.report_review_decisions(id)"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_sequence_check",
+      "CHECK ((sequence > 0))"
+    ],
+    [
+      "finding_followups",
+      "finding_followups_tenant_id_fkey",
       "FOREIGN KEY (tenant_id) REFERENCES proofline_private.tenants(id)"
     ],
     [

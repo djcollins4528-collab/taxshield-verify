@@ -17,7 +17,7 @@ image digest, with no network, published port or persistent volume. It removes o
 its own container afterward. Docker must already be running. No hosted credentials
 are accepted. Auth users/sessions are minimal synthetic table contracts, not Auth.
 
-35 of 37 recorded migrations replay. The two pg_net installation/relocation steps
+36 of 38 recorded migrations replay. The two pg_net installation/relocation steps
 are explicitly excluded because stock PostgreSQL lacks that Supabase extension.
 Dispatcher functions are never invoked locally. This does not validate network
 dispatch, Supabase Auth, data restoration, encryption keys or independent recovery.
@@ -31,6 +31,12 @@ extension implementation, function/sequence ACLs and indexes need separate valid
 21 SQL assertions cover valid/invalid report contracts, mutation/truncation denial,
 client table privileges, RLS and fail-closed release. Four Python tests verify the
 migration inventory rejects tampering, missing files and unexpected files.
+
+21 additional assertions cover the synthetic finding followup ledger and its retained
+remediation/reverification history. Candidate migrations can be tested locally with
+`--candidate path/to/migration.sql` after checking the baseline live catalog; this
+option never applies anything to hosted staging. Recorded migrations remain checksum
+verified. No candidate flag is used in the committed hosted rebuild CI.
 
 New migration `20261104142004` adds five statement-level TRUNCATE guards and a strict
 complete-report constraint. It changes no rows or access grants. An administrator

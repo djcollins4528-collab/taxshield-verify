@@ -1,6 +1,9 @@
 # Proofline changelog
 
 ## 2026-11-04
+- Deployed private synthetic remediation/reverification ledger with immutable
+  report/finding/review links, role/session checks, typed evidence and retained history.
+  21 new isolated acceptance assertions pass; no API grants or delivery activation.
 - Added operator-only real browser/API review acceptance; 25 checks passed and one
   changes_requested decision persisted, with immutable draft and release lock intact.
 - Corrected stale production records to distinguish confirmed owner-controlled Auth

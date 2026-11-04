@@ -5,6 +5,10 @@ Latest observed database preflight: 6/9 passing after confirmed account acceptan
 not the nine broader A–I production gates; none of those broad gates is fully verified.
 
 ## Verified this cycle
+- Remediation/reverification database layer deployed as migration 20261104200937.
+  21 new isolated assertions and 21 existing security checks pass; all seven live
+  catalog categories match the 38-migration rebuild. New ledger has no client grants
+  or API/UI exposure. See FOLLOWUP_LEDGER_ACCEPTANCE.md for scope and limitations.
 - Confirmed owner-controlled accounts: 9 live API authorization/revocation checks
   and Chromium/WebKit role sign-in/report acceptance passed. Auth Site URL now
   points to staging and was verified after dashboard reload.
@@ -25,7 +29,8 @@ not the nine broader A–I production gates; none of those broad gates is fully 
 - Historical report 503: not reproduced in fresh live synthetic rehearsal.
   Receipt a2873da6-de93-4621-ad9b-298f2f3cd73e, 17/17 checks, reviewer read 200,
   collector denial 403, bad digest denial, revocation denial, cleanup confirmed.
-- pg_net is in extensions; Security Advisor: zero warnings/errors, 12 informational notices.
+- pg_net is in extensions. Latest Security Advisor: 13 informational no-policy
+  notices and one Auth warning for disabled leaked-password protection.
 - Initial browser baseline: Chromium/WebKit, 1440/768/390/320px, no overflow or axe violations.
 - Reproduced sign-in focus failure and misleading logout on both engines using mocks.
 - Fixed focus, failed-logout messaging, empty successful logout, expired-session reset,
