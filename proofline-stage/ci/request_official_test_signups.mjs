@@ -1,3 +1,4 @@
+import {validateTestMailboxes} from './test_mailbox_policy.mjs';
 // Owner-run ONLY: request email confirmation via official Supabase Auth signup.
 // This is never a public HTTP endpoint, and it does not create memberships.
 export const STAGING='https://pgknyzwctmfqvlivlgpe.supabase.co';
@@ -6,13 +7,11 @@ export function validate(env){
  for(const k of KEYS)if(typeof env[k]!=='string'||!env[k])throw Error('Missing '+k);
  if(env.SUPABASE_URL!==STAGING)throw Error('Refusing any project except Proofline staging');
  if(!env.SUPABASE_PUBLISHABLE_KEY.startsWith('sb_publishable_'))throw Error('Modern Supabase publishable key required; admin/secret key forbidden');
+ validateTestMailboxes(env);
  for(const role of ['collector','reviewer']){
-  const address=env['PROOFLINE_'+role.toUpperCase()+'_EMAIL'];
-  if(!new RegExp('^proofline-'+role+'-test(?:\\+[a-z0-9_-]+)?@[a-z0-9.-]+\\.[a-z]{2,}$','i').test(address))throw Error('Dedicated '+role+' test mailbox required');
   const pw=env['PROOFLINE_'+role.toUpperCase()+'_PASSWORD'];
   if(pw.length<16||pw.length>128)throw Error('16-128 character test password required for '+role);
  }
- if(env.PROOFLINE_COLLECTOR_EMAIL.toLowerCase()===env.PROOFLINE_REVIEWER_EMAIL.toLowerCase())throw Error('Separate collector and reviewer mailboxes required');
  if(env.PROOFLINE_COLLECTOR_PASSWORD===env.PROOFLINE_REVIEWER_PASSWORD)throw Error('Separate collector and reviewer passwords required');
  return env;
 }

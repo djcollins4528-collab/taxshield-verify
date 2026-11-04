@@ -63,3 +63,20 @@ test('detects when revoked session stays authorized',async()=>{
  await assert.rejects(run(m.request,env),/Revoked collector session accepted/);
  assert.deepEqual([...m.revoked].sort(),['collector','reviewer']);
 });
+
+test('two owner-linked test aliases can complete mocked Auth sign-in and revocation',async()=>{
+ const aliasEnv={...env,PROOFLINE_OWNER_EMAIL:'sample.owner@gmail.com',
+  PROOFLINE_COLLECTOR_EMAIL:'sample.owner+proofline-collector-test@gmail.com',
+  PROOFLINE_REVIEWER_EMAIL:'sample.owner+proofline-reviewer-test@gmail.com'};
+ const m=fake();
+ assert.equal((await run(m.request,aliasEnv)).passed,9);
+ assert.deepEqual([...m.revoked].sort(),['collector','reviewer']);
+});
+test('owner mismatch blocks Auth login before any HTTP requests',async()=>{
+ const aliasEnv={...env,PROOFLINE_OWNER_EMAIL:'other.person@gmail.com',
+  PROOFLINE_COLLECTOR_EMAIL:'sample.owner+proofline-collector-test@gmail.com',
+  PROOFLINE_REVIEWER_EMAIL:'sample.owner+proofline-reviewer-test@gmail.com'};
+ const m=fake();
+ await assert.rejects(run(m.request,aliasEnv),/Owner mailbox/);
+ assert.equal(m.history.length,0);
+});

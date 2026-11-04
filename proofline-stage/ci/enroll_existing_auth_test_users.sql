@@ -36,14 +36,27 @@ BEGIN
   IF role_distinct<>2 THEN
     RAISE EXCEPTION 'refusing identical collector/reviewer mailboxes';
   END IF;
-  IF EXISTS(
-    SELECT 1 FROM proofline_enrollment_input
-    WHERE NOT (
-      (role='collector' AND email ~ '^proofline-collector-test(\+[a-z0-9_-]+)?@[a-z0-9.-]+\.[a-z]{2,}$')
-      OR (role='reviewer' AND email ~ '^proofline-reviewer-test(\+[a-z0-9_-]+)?@[a-z0-9.-]+\.[a-z]{2,}$')
+  -- Support legacy dedicated test addresses OR two role-tagged Gmail plus
+  -- aliases sharing the exact base mailbox, never a general customer address.
+  IF NOT (
+    (
+      EXISTS(SELECT 1 FROM proofline_enrollment_input WHERE role='collector'
+        AND email ~ '^proofline-collector-test(\+[a-z0-9_-]+)?@[a-z0-9.-]+\.[a-z]{2,}$')
+      AND EXISTS(SELECT 1 FROM proofline_enrollment_input WHERE role='reviewer'
+        AND email ~ '^proofline-reviewer-test(\+[a-z0-9_-]+)?@[a-z0-9.-]+\.[a-z]{2,}$')
+    ) OR (
+      EXISTS(SELECT 1 FROM proofline_enrollment_input WHERE role='collector'
+        AND email ~ '^[a-z0-9._-]+\+proofline-collector-test@gmail\.com$')
+      AND EXISTS(SELECT 1 FROM proofline_enrollment_input WHERE role='reviewer'
+        AND email ~ '^[a-z0-9._-]+\+proofline-reviewer-test@gmail\.com$')
+      AND (
+        SELECT split_part(email,'+',1) FROM proofline_enrollment_input WHERE role='collector'
+      )=(
+        SELECT split_part(email,'+',1) FROM proofline_enrollment_input WHERE role='reviewer'
+      )
     )
   ) THEN
-    RAISE EXCEPTION 'only dedicated synthetic Proofline test mailboxes allowed';
+    RAISE EXCEPTION 'only matched owner-controlled or dedicated synthetic test mailboxes allowed';
   END IF;
   SELECT count(*) INTO tenant_found
   FROM proofline_private.tenants

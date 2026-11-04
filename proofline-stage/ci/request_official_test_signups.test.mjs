@@ -11,8 +11,8 @@ const ENV={
 };
 test('project must be exact staging',()=>assert.throws(()=>validate({...ENV,SUPABASE_URL:'https://wrong.supabase.co'}),/staging/));
 test('secret or service key refused',()=>assert.throws(()=>validate({...ENV,SUPABASE_PUBLISHABLE_KEY:'sb_secret_bad'}),/key/));
-test('rejects nondedicated addresses',()=>assert.throws(()=>validate({...ENV,PROOFLINE_COLLECTOR_EMAIL:'customer@example.com'}),/Dedicated/));
-test('requires different mailboxes',()=>assert.throws(()=>validate({...ENV,PROOFLINE_REVIEWER_EMAIL:ENV.PROOFLINE_COLLECTOR_EMAIL}),/(Dedicated|Separate)/));
+test('rejects nondedicated addresses',()=>assert.throws(()=>validate({...ENV,PROOFLINE_COLLECTOR_EMAIL:'customer@example.com'}),/(Dedicated|Refusing)/));
+test('requires different mailboxes',()=>assert.throws(()=>validate({...ENV,PROOFLINE_REVIEWER_EMAIL:ENV.PROOFLINE_COLLECTOR_EMAIL}),/(Dedicated|Separate|Refusing|Distinct)/));
 test('requires different strong passwords',()=>{
  assert.throws(()=>validate({...ENV,PROOFLINE_COLLECTOR_PASSWORD:'weak'}),/password/);
  assert.throws(()=>validate({...ENV,PROOFLINE_REVIEWER_PASSWORD:ENV.PROOFLINE_COLLECTOR_PASSWORD}),/Separate/);
@@ -44,4 +44,23 @@ test('second signup fails closed without claiming two successes',async()=>{
 });
 test('network failures propagate rather than claim signup',async()=>{
  await assert.rejects(requestConfirmations(async()=>{throw Error('network unavailable')},ENV),/network unavailable/);
+});
+
+test('accepts verified owner-linked mailbox alias signup',async()=>{
+ const aliased={...ENV,PROOFLINE_OWNER_EMAIL:'sample.owner@gmail.com',
+  PROOFLINE_COLLECTOR_EMAIL:'sample.owner+proofline-collector-test@gmail.com',
+  PROOFLINE_REVIEWER_EMAIL:'sample.owner+proofline-reviewer-test@gmail.com'};
+ const received=[];
+ const result=await requestConfirmations(async(_url,config)=>{
+  received.push(JSON.parse(config.body).email);return {status:200};
+ },aliased);
+ assert.equal(result.accountsVerified,false);
+ assert.deepEqual(received,[aliased.PROOFLINE_COLLECTOR_EMAIL,aliased.PROOFLINE_REVIEWER_EMAIL]);
+});
+test('rejects alias signup without proven owner base',async()=>{
+ const aliased={...ENV,PROOFLINE_COLLECTOR_EMAIL:'sample.owner+proofline-collector-test@gmail.com',
+ PROOFLINE_REVIEWER_EMAIL:'sample.owner+proofline-reviewer-test@gmail.com'};
+ let called=0;
+ await assert.rejects(requestConfirmations(async()=>{called++;return {status:200}},aliased),/Owner mailbox/);
+ assert.equal(called,0);
 });

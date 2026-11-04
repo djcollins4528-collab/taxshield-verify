@@ -1,3 +1,4 @@
+import {validateTestMailboxes} from './test_mailbox_policy.mjs';
 // Dependency-free, staging-only Auth acceptance. Never provision users or log credentials.
 export const BASE='https://pgknyzwctmfqvlivlgpe.supabase.co';
 export const TENANT='bbbbaaaa-1111-4111-8111-000000000001';
@@ -7,9 +8,7 @@ export function validate(env) {
  for(const key of required)if(!env[key])throw Error('Missing required test-only configuration: '+key);
  if(env.SUPABASE_URL!==BASE)throw Error('Refusing nonstaging project');
  if(env.SUPABASE_PUBLISHABLE_KEY.length<16)throw Error('Missing publishable key');
- for(const [role,email] of [['collector',env.PROOFLINE_COLLECTOR_EMAIL],['reviewer',env.PROOFLINE_REVIEWER_EMAIL]]) {
-  if(!new RegExp('^proofline-'+role+'-test(?:\\+[^@]+)?@[^@\\s]+\\.[^@\\s]+$','i').test(email))throw Error('Refusing nondedicated '+role+' account');
- }
+ validateTestMailboxes(env);
  if(env.PROOFLINE_COLLECTOR_EMAIL.toLowerCase()===env.PROOFLINE_REVIEWER_EMAIL.toLowerCase()||env.PROOFLINE_COLLECTOR_PASSWORD===env.PROOFLINE_REVIEWER_PASSWORD)throw Error('Distinct Auth accounts and passwords required');
  return env;
 }
