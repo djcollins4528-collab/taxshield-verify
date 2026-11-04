@@ -1,0 +1,90 @@
+{
+  "schema": "proofline.release.evidence.v1",
+  "target": "customer_production",
+  "production_activation": "disabled",
+  "customer_intake": "disabled",
+  "live_billing": "disabled",
+  "github_environment": "proofline-production",
+  "staging_evidence": [
+    {
+      "id": "isolated_pg17_recovery",
+      "status": "verified_synthetic",
+      "evidence_url": "https://github.com/djcollins4528-collab/taxshield-verify/actions/runs/41707714386",
+      "scope": "Disposable PostgreSQL 17 signed synthetic archive"
+    },
+    {
+      "id": "tenant_role_rls",
+      "status": "verified_synthetic",
+      "evidence_url": "https://github.com/djcollins4528-collab/taxshield-verify/actions/runs/41727625323",
+      "scope": "Restricted-role two-tenant synthetic RLS"
+    },
+    {
+      "id": "membership_revocation",
+      "status": "verified_synthetic",
+      "evidence_url": "https://github.com/djcollins4528-collab/taxshield-verify/actions/runs/41733224398",
+      "scope": "Simulated membership revocation in isolated PostgreSQL"
+    },
+    {
+      "id": "sealed_public_ingress",
+      "status": "verified_staging",
+      "evidence_url": "https://github.com/djcollins4528-collab/taxshield-verify/actions/runs/41744532331",
+      "scope": "Five public negative probes; not customer readiness"
+    }
+  ],
+  "launch_gates": [
+    {
+      "id": "real_collector_auth",
+      "status": "blocked",
+      "evidence_url": null,
+      "detail": "No genuine collector Auth user or positive sign-in acceptance"
+    },
+    {
+      "id": "real_reviewer_auth",
+      "status": "blocked",
+      "evidence_url": null,
+      "detail": "No genuine reviewer Auth user or positive sign-in acceptance"
+    },
+    {
+      "id": "live_auth_revocation",
+      "status": "blocked",
+      "evidence_url": null,
+      "detail": "No revoked genuine Supabase session acceptance"
+    },
+    {
+      "id": "customer_end_to_end_delivery",
+      "status": "blocked",
+      "evidence_url": null,
+      "detail": "No verified customer intake through encrypted evidence, independent review, report and handoff"
+    },
+    {
+      "id": "independent_production_key_custody",
+      "status": "blocked",
+      "evidence_url": null,
+      "detail": "No independent production signer/key custody and protected offsite recovery acceptance"
+    },
+    {
+      "id": "legal_operating_clearances",
+      "status": "blocked",
+      "evidence_url": null,
+      "detail": "LLC, business license, professional licensing scope and outside-work approvals unresolved"
+    },
+    {
+      "id": "contract_privacy_insurance",
+      "status": "blocked",
+      "evidence_url": null,
+      "detail": "Service agreement, terms/privacy, liability coverage and data handling not signed off"
+    },
+    {
+      "id": "merchant_live_payments",
+      "status": "blocked",
+      "evidence_url": null,
+      "detail": "Live production merchant payment acceptance deliberately disabled"
+    }
+  ],
+  "approval": {
+    "status": "not_issued",
+    "approved_by": null,
+    "approved_at": null,
+    "protected_environment_review": null
+  }
+}
