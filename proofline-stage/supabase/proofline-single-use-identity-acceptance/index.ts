@@ -1,0 +1,1 @@
+Deno.serve((_req) => new Response(JSON.stringify({state:"sealed",reason:"administrative_identity_rehearsal_disabled"}),{status:410,headers:{"content-type":"application/json","cache-control":"no-store","x-content-type-options":"nosniff"}}));
