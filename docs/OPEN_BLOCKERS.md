@@ -1,0 +1,38 @@
+# Proofline open blockers
+
+1. Confirmed owner-controlled collector/reviewer accounts pass real sign-in, report
+   and decision acceptance. Independent human reviewer acceptance is still absent;
+   two aliases controlled by one owner do not establish operational independence.
+2. Source is recorded for 16 deployed Edge Functions and 38 database migrations.
+   The isolated rebuild matches seven captured live catalog categories. Supabase
+   extension/Auth integration and independent evidence/key recovery remain unverified.
+   Separately packaged custody engine is unavailable here.
+3. Full synthetic customer delivery and reverification workflow has not passed.
+4. Authorized Entra development tenant access and least-privilege Graph permission
+   acceptance are not established in this session.
+5. Independent production custody/recovery and merchant sandbox acceptance are missing.
+6. Checklist #1 offer definition is complete (PILOT_DELIVERY_BRIEF.md, $1,950 one-time).
+   Actual reviewer quotes/buyer demand, legal/operating prerequisites and explicit
+   owner activation approvals remain open. Checklist #2 evidence reconciliation and
+   private filing/bookkeeping packet are prepared; actual Proofline Assurance LLC formation, EIN,
+   county disposition and bank opening are not complete. See BUSINESS_OPERATING_STATUS.md.
+
+Closed scoped leads: report retrieval 503 not reproduced (fresh 17/17 rehearsal);
+pg_net public-schema warning resolved; two confirmed role accounts retained, zero
+sessions after live tests. The staging confirmation redirect is corrected.
+Browser/session UI fixes are tracked in the deployment acceptance record.
+
+Real-session followup acceptance passed on November 5. Two confirmed staging accounts
+recorded linked remediation and reverification events and retrieved them in fresh
+sessions. See LIVE_FOLLOWUP_ACCEPTANCE.md. The synthetic recipient handoff also
+passed on November 5, including byte verification and withdrawal in an active session.
+See SYNTHETIC_RECIPIENT_HANDOFF.md. Full engagement rehearsal, independent human review,
+custody and explicit launch authorization are still required for customer handoff.
+
+Latest Security Advisor also flags disabled leaked-password protection. Review
+the existing plan's available Auth protection before production; no paid upgrade
+is authorized. Private no-policy tables remain intentionally inaccessible to clients.
+
+Checklist #3 drafting is prepared in contracts/00_README.md. Actual counsel disposition,
+formed supplier/contacts, production provider/security/deletion verification, bound
+insurance/customer requirements and genuine customer execution remain outstanding.

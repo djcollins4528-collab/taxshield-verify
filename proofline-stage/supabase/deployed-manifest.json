@@ -1,0 +1,160 @@
+{
+  "observed_date": "2026-11-05",
+  "project": "pgknyzwctmfqvlivlgpe",
+  "functions": [
+    {
+      "slug": "proofline-staging-health",
+      "version": 1,
+      "verify_jwt": true,
+      "bundle_sha256": "e8232d46d2359813a79b8703f1e51403b0aca16e268cd3f30f52dbbe1aa7d1dc",
+      "files": [
+        "index.ts"
+      ]
+    },
+    {
+      "slug": "proofline-staging-auth",
+      "version": 3,
+      "verify_jwt": true,
+      "bundle_sha256": "58f19bc57ea4ce6885de93caddd9a65069d4dcb785ff904e0b52aa34680b1260",
+      "files": [
+        "index.ts",
+        "policy.mjs"
+      ]
+    },
+    {
+      "slug": "proofline-single-use-identity-acceptance",
+      "version": 2,
+      "verify_jwt": true,
+      "bundle_sha256": "428f8e93d593c057c0f6790d71b5b44f320cdafb52fa74678d1f08f37bbbad69",
+      "files": [
+        "index.ts"
+      ]
+    },
+    {
+      "slug": "proofline-staging-readiness",
+      "version": 2,
+      "verify_jwt": true,
+      "bundle_sha256": "f0a8fd931b3caba8201782ca606901c9b07e4678e185bb503100c4d9e76f4815",
+      "files": [
+        "index.ts"
+      ]
+    },
+    {
+      "slug": "proofline-synthetic-report-export",
+      "version": 1,
+      "verify_jwt": true,
+      "bundle_sha256": "0423865a631c426ae8f85caaa2a1c91326a9c55e21c7a477097359d163404113",
+      "files": [
+        "index.ts"
+      ]
+    },
+    {
+      "slug": "proofline-staging-review-decisions",
+      "version": 2,
+      "verify_jwt": true,
+      "bundle_sha256": "fe1b2505dba9485b8bec5bf9e4fc3ef25a9f186b31f051af268769114b90c5a4",
+      "files": [
+        "index.ts",
+        "policy.mjs"
+      ]
+    },
+    {
+      "slug": "proofline-staging-review-report",
+      "version": 5,
+      "verify_jwt": true,
+      "bundle_sha256": "e3e927aebb9cc527f8901617aaf563d3a09503e2f7559ceab5760af7b1a1e04e",
+      "files": [
+        "index.ts",
+        "policy.mjs"
+      ]
+    },
+    {
+      "slug": "proofline-staging-auth-bootstrap",
+      "version": 3,
+      "verify_jwt": true,
+      "bundle_sha256": "657610d5f3084e5ce3dee27a8ea2fcd3c979e691db1ea1373df6bdda9adba71f",
+      "files": [
+        "index.ts"
+      ]
+    },
+    {
+      "slug": "proofline-staging-acceptance-control",
+      "version": 3,
+      "verify_jwt": true,
+      "bundle_sha256": "c67650fc9828317648a2392893c2b53681e59679e3c5eb2095a0cfba9e762790",
+      "files": [
+        "index.ts"
+      ]
+    },
+    {
+      "slug": "proofline-staging-http-rehearsal",
+      "version": 6,
+      "verify_jwt": true,
+      "bundle_sha256": "14f16929e66646f3d4c93c3c8abfaf0ab7a0c3f006c7e23bc91d266e7c5a61d6",
+      "files": [
+        "index.ts"
+      ]
+    },
+    {
+      "slug": "proofline-rehearsal-dispatch",
+      "version": 3,
+      "verify_jwt": false,
+      "bundle_sha256": "7d2b26075c18ba7c7180b35db983e33979c0c73b812ede00cb0d2678c1654e4b",
+      "files": [
+        "index.ts"
+      ]
+    },
+    {
+      "slug": "proofline-synthetic-cleanup",
+      "version": 1,
+      "verify_jwt": false,
+      "bundle_sha256": "5ac6c2eb6fa5293e21bde6e80d24cfab383db46201471e9dfc3c2bb08426ca7b",
+      "files": [
+        "index.ts"
+      ]
+    },
+    {
+      "slug": "proofline-frontend-smoke",
+      "version": 1,
+      "verify_jwt": false,
+      "bundle_sha256": "ec1eeaf043755ee40e15a9f8b1fbde3c9a4b6d256b18c296c2dd40fc0b0c8c03",
+      "files": [
+        "index.ts"
+      ]
+    },
+    {
+      "slug": "proofline-staging-review-workbench",
+      "version": 5,
+      "verify_jwt": false,
+      "bundle_sha256": "055502a4d87dec14c45f7905a116cffa8b1e1d1eab977bf2d7cddbcfabfe8a66",
+      "files": [
+        "index.ts"
+      ],
+      "note": "Generated source; LF normalization added after deployment without semantic change"
+    },
+    {
+      "slug": "proofline-staging-followups",
+      "version": 5,
+      "verify_jwt": true,
+      "bundle_sha256": "e9d419046a37757b77030dd48c411aac8f13726fe1e2eb782ae77126cd93d8e1",
+      "files": [
+        "proofline-staging-followups/index.ts",
+        "proofline-staging-followups/policy.mjs",
+        "proofline-staging-followups/handler.mjs",
+        "proofline-staging-followups/database.mjs",
+        "proofline-staging-auth/policy.mjs"
+      ]
+    },
+    {
+      "slug": "proofline-synthetic-handoff",
+      "version": 1,
+      "verify_jwt": true,
+      "bundle_sha256": "0523ac2fc8af90298e084efd6c1133b7b7f369458e2565aeede758c6e55b4029",
+      "files": [
+        "proofline-synthetic-handoff/index.ts",
+        "proofline-synthetic-handoff/package.mjs",
+        "proofline-staging-auth/policy.mjs"
+      ]
+    }
+  ]
+}

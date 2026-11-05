@@ -36,19 +36,19 @@
       "id": "real_collector_auth",
       "status": "blocked",
       "evidence_url": null,
-      "detail": "No genuine collector Auth user or positive sign-in acceptance"
+      "detail": "Confirmed owner-controlled collector passed real staging Auth and browser acceptance; independent production operating acceptance remains unverified"
     },
     {
       "id": "real_reviewer_auth",
       "status": "blocked",
       "evidence_url": null,
-      "detail": "No genuine reviewer Auth user or positive sign-in acceptance"
+      "detail": "Confirmed owner-controlled reviewer passed real staging Auth, report and decision acceptance; independent human reviewer acceptance remains unverified"
     },
     {
       "id": "live_auth_revocation",
       "status": "blocked",
       "evidence_url": null,
-      "detail": "No revoked genuine Supabase session acceptance"
+      "detail": "Real owner-controlled staging session revocation passed; production-environment acceptance remains unverified"
     },
     {
       "id": "customer_end_to_end_delivery",
@@ -66,13 +66,13 @@
       "id": "legal_operating_clearances",
       "status": "blocked",
       "evidence_url": null,
-      "detail": "LLC, business license, professional licensing scope and outside-work approvals unresolved"
+      "detail": "Proofline Assurance LLC formation/EIN/county account and bank opening unverified; October 26 restricted-advisory DCJS opinion recovered; employer gate preserved as owner-attested. See docs/BUSINESS_OPERATING_STATUS.md. No blanket licensing or agency approval claimed."
     },
     {
       "id": "contract_privacy_insurance",
       "status": "blocked",
       "evidence_url": null,
-      "detail": "Service agreement, terms/privacy, liability coverage and data handling not signed off"
+      "detail": "Checklist #3 draft MSA/SOW/authorization/DPA/provider register/privacy/insurance and execution package prepared; counsel, actual production controls/contacts/providers, policy binding and genuine customer signatures remain unverified. See docs/contracts/00_README.md. No customer activation authorized."
     },
     {
       "id": "merchant_live_payments",

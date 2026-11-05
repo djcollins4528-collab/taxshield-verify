@@ -1,0 +1,24 @@
+name: Proofline recorded database rebuild
+on:
+  push:
+    paths: ['proofline-stage/migrations/recorded/**', 'proofline-stage/ci/replay*', 'proofline-stage/ci/schema_inventory.sql', 'proofline-stage/ci/live-schema-inventory.json', 'proofline-stage/ci/test_migration_inventory.py', '.github/workflows/proofline-migration-replay.yml']
+  pull_request:
+    paths: ['proofline-stage/migrations/recorded/**', 'proofline-stage/ci/replay*', 'proofline-stage/ci/schema_inventory.sql', 'proofline-stage/ci/live-schema-inventory.json', 'proofline-stage/ci/test_migration_inventory.py', '.github/workflows/proofline-migration-replay.yml']
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 -m unittest discover -s proofline-stage/ci -p test_migration_inventory.py
+      - run: python3 proofline-stage/ci/replay_recorded_migrations.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: proofline-isolated-rebuild
+          path: proofline-stage/ci/replay-result.json
+          retention-days: 14

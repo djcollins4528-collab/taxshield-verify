@@ -1,0 +1,36 @@
+name: Proofline synthetic delivery package contract
+on:
+  push:
+    paths:
+      - 'proofline-stage/ci/verify-pilot-package*.mjs'
+      - 'proofline-stage/ci/rehearse-pilot-package*.mjs'
+      - 'proofline-stage/ci/live-devtenant-graph-collector*.mjs'
+      - '.github/workflows/proofline-package-contract.yml'
+  pull_request:
+    paths:
+      - 'proofline-stage/ci/verify-pilot-package*.mjs'
+      - '.github/workflows/proofline-package-contract.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-package-contract:
+    name: Synthetic package validation (never launch approval)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate and reject incomplete synthetic deliverables
+        run: node --test proofline-stage/ci/verify-pilot-package.test.mjs proofline-stage/ci/rehearse-pilot-package.test.mjs proofline-stage/ci/live-devtenant-graph-collector.test.mjs
+      - name: Generate six synthetic inspected packages
+        run: node proofline-stage/ci/rehearse-pilot-package.mjs "$RUNNER_TEMP/proofline-sixcases"
+      - name: Preserve synthetic reports and check receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: proofline-synthetic-sixcase-delivery
+          path: ${{ runner.temp }}/proofline-sixcases
+          retention-days: 7
+          if-no-files-found: error

@@ -1,0 +1,1 @@
+{"name":"proofline-workbench-acceptance","private":true,"type":"module","scripts":{"test":"playwright test","build:edge":"node build-edge.mjs"},"devDependencies":{"@axe-core/playwright":"4.14.0","@playwright/test":"1.64.1"}}

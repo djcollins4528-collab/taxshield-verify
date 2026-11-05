@@ -1,0 +1,32 @@
+name: Proofline workbench browser regressions
+on:
+  push:
+    paths: ['proofline-stage/web/**', 'proofline-stage/web-tests/**', '.github/workflows/proofline-workbench.yml']
+  pull_request:
+    paths: ['proofline-stage/web/**', 'proofline-stage/web-tests/**', '.github/workflows/proofline-workbench.yml']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: proofline-stage/web-tests
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npm test
+      - run: npm run build:edge && git diff --exit-code -- ../supabase/proofline-staging-review-workbench/index.ts
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: proofline-browser-results
+          path: proofline-stage/web-tests/results/
+          retention-days: 7
