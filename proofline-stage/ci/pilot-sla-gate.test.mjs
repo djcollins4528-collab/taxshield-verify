@@ -1,0 +1,16 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {dueDate,evaluateRehearsals} from './pilot-sla-gate.mjs';
+const good=scenario=>({scenario,readiness_at:'2026-11-02T13:00:00Z',delivered_at:'2026-11-09T14:00:00Z',real_tenant_authorized:true,graph_collection_verified:true,independent_human_reviewer_verified:true,reviewer_attestation_verified_externally:true,full_package_integrity_verified:true,recipient_handoff_verified:true,same_session_revocation_verified:true,fresh_signin_revocation_verified:true,delivery_approved:true,customer_data_policy_approved:true,operator_minutes:140,reviewer_minutes:80,elapsed_wall_minutes:6900,failure_recovery_tested:true});
+const triplet=()=>['supported','exception','insufficient'].map(good);
+test('five business days after November 2 is November 9',()=>assert.equal(dueDate('2026-11-02T13:00:00Z'),'2026-11-09'));
+test('Thanksgiving excludes Thursday and Friday is next work day',()=>assert.equal(dueDate('2026-11-25T14:00:00Z',1),'2026-11-27'));
+test('observed Christmas exclusion',()=>assert.equal(dueDate('2026-12-24T14:00:00Z',1),'2026-12-28'));
+test('three valid evidence assertions meet only technical gates',()=>assert.equal(evaluateRehearsals(triplet()).decision,'TECHNICAL_REHEARSAL_GATES_MET'));
+test('synthetic runs do not satisfy release',()=>{const a=triplet();a[0].real_tenant_authorized=false;assert.equal(evaluateRehearsals(a).decision,'NO_GO')});
+test('no independent human means no go',()=>{const a=triplet();a[1].independent_human_reviewer_verified=false;assert.match(evaluateRehearsals(a).reason,/reviewer/)});
+test('no recipient withdrawal means no go',()=>{const a=triplet();a[2].fresh_signin_revocation_verified=false;assert.equal(evaluateRehearsals(a).decision,'NO_GO')});
+test('no real labor measurement means no go',()=>{const a=triplet();a[1].reviewer_minutes=0;assert.match(evaluateRehearsals(a).reason,/labor/)});
+test('missed deadline means no go',()=>{const a=triplet();a[0].delivered_at='2026-11-10T14:00:00Z';assert.match(evaluateRehearsals(a).reason,/SLA/)});
+test('one case does not satisfy three rehearsals',()=>assert.equal(evaluateRehearsals([good('supported')]).decision,'NO_GO'));
+test('never turns on commercial activation',()=>assert.match(evaluateRehearsals(triplet()).commercial_activation,/SEPARATE/));
