@@ -7,16 +7,15 @@ export async function runFollowup(sql,route,payload,identity) {
   await tx`set local statement_timeout='5s'`;
   await tx`set local lock_timeout='3s'`;
   const roles=route==='history'?['collector','reviewer']:[payload.kind==='remediation'?'collector':'reviewer'];
-  const access=await tx`select exists(
-   select 1 from proofline_private.memberships m join auth.users u on u.id=m.auth_user_id
+  const access=await tx`select m.role from proofline_private.memberships m join auth.users u on u.id=m.auth_user_id
    join auth.sessions s on s.user_id=u.id
    where m.tenant_id=${STAGING_TENANT}::uuid and m.auth_user_id=${identity.actorId}::uuid
    and m.issuer=${ISSUER} and m.subject=${identity.actorId} and m.active
    and m.role=any(${roles}::text[]) and u.is_anonymous=false and u.email_confirmed_at is not null
    and (u.banned_until is null or u.banned_until<=now())
    and s.id=${identity.sessionId}::uuid and (s.not_after is null or s.not_after>now())
-  ) as allowed`;
-  if(access.length!==1||access[0].allowed!==true)return null;
+  `;
+  if(access.length!==1||!roles.includes(access[0].role))return null;
   const artifacts=await tx`select a.id,a.source_sha256 from proofline_private.report_artifacts a
    where a.id=${payload.artifact_id}::uuid and a.tenant_id=${STAGING_TENANT}::uuid
    and a.document_type='security_assessment_draft' and a.classification='SYNTHETIC_STAGING_ONLY'
@@ -25,12 +24,16 @@ export async function runFollowup(sql,route,payload,identity) {
    and exists(select 1 from jsonb_array_elements(a.source_snapshot->'findings') f where f->>'finding_id'=${payload.finding_id})`;
   if(artifacts.length!==1)return null;
   if(route==='history') {
+   const decisions=await tx`select id from proofline_private.report_review_decisions
+    where artifact_id=${payload.artifact_id}::uuid and tenant_id=${STAGING_TENANT}::uuid
+    and artifact_sha256=${artifacts[0].source_sha256} and decision='changes_requested' limit 1`;
    const events=await tx`select id,review_decision_id,artifact_sha256,finding_id,sequence,previous_id,kind,outcome,evidence,evidence_sha256,created_at
     from proofline_private.finding_followups where tenant_id=${STAGING_TENANT}::uuid
     and artifact_id=${payload.artifact_id}::uuid and finding_id=${payload.finding_id}
     and sequence>${payload.after_sequence} order by sequence limit 101`;
    const page=events.slice(0,100);
-   return {artifact_id:payload.artifact_id,source_sha256:artifacts[0].source_sha256,events:page,
+   return {artifact_id:payload.artifact_id,source_sha256:artifacts[0].source_sha256,
+    role:access[0].role,change_request_id:decisions[0]?.id??null,finding_id:payload.finding_id,events:page,
     next_after_sequence:events.length>100?page[99].sequence:null};
   }
   if(artifacts[0].source_sha256!==payload.expected_sha256)return null;

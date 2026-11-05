@@ -75,22 +75,34 @@ function databaseFixture(results) {
  return {sql:{begin:async fn=>fn(tx)},calls};
 }
 test('database adapter stops before artifact/history access for revoked session or membership',async()=>{
- const db=databaseFixture([[],[],[{allowed:false}]]);
+ const db=databaseFixture([[],[],[]]);
  assert.equal(await runFollowup(db.sql,'history',{artifact_id:artifact,finding_id:'x',after_sequence:0},{actorId:actor,sessionId:session}),null);
  assert.equal(db.calls.length,3);
 });
 test('database adapter rejects wrong artifact digest without inserting',async()=>{
- const db=databaseFixture([[],[],[{allowed:true}],[{id:artifact,source_sha256:'b'.repeat(64)}]]);
+ const db=databaseFixture([[],[],[{role:'collector'}],[{id:artifact,source_sha256:'b'.repeat(64)}]]);
  assert.equal(await runFollowup(db.sql,'append',payload(),{actorId:actor,sessionId:session}),null);assert.equal(db.calls.length,4);
 });
 test('database adapter binds verified identity and returns trigger-computed hash',async()=>{
- const db=databaseFixture([[],[],[{allowed:true}],[{id:artifact,source_sha256:'a'.repeat(64)}],[{id:decision,sequence:1,evidence_sha256:'c'.repeat(64)}]]);
+ const db=databaseFixture([[],[],[{role:'collector'}],[{id:artifact,source_sha256:'a'.repeat(64)}],[{id:decision,sequence:1,evidence_sha256:'c'.repeat(64)}]]);
  const r=await runFollowup(db.sql,'append',payload(),{actorId:actor,sessionId:session});
  assert.equal(r.event.evidence_sha256,'c'.repeat(64));assert.ok(db.calls[4].values.includes(actor));assert.ok(db.calls[4].values.includes(session));
 });
 test('history pages are bounded and do not skip the next event',async()=>{
  const events=Array.from({length:101},(_,i)=>({sequence:i+1}));
- const db=databaseFixture([[],[],[{allowed:true}],[{id:artifact,source_sha256:'a'.repeat(64)}],events]);
+ const db=databaseFixture([[],[],[{role:'collector'}],[{id:artifact,source_sha256:'a'.repeat(64)}],[{id:decision}],events]);
  const r=await runFollowup(db.sql,'history',{artifact_id:artifact,finding_id:'x',after_sequence:0},{actorId:actor,sessionId:session});
  assert.equal(r.events.length,100);assert.equal(r.next_after_sequence,100);
+ assert.equal(r.role,'collector');assert.equal(r.change_request_id,decision);assert.equal(r.finding_id,'x');
+});
+test('history without a matching change request cannot invent an eligible decision',async()=>{
+ const db=databaseFixture([[],[],[{role:'reviewer'}],[{id:artifact,source_sha256:'a'.repeat(64)}],[],[]]);
+ const r=await runFollowup(db.sql,'history',{artifact_id:artifact,finding_id:'x',after_sequence:0},{actorId:actor,sessionId:session});
+ assert.equal(r.role,'reviewer');assert.equal(r.change_request_id,null);assert.deepEqual(r.events,[]);
+});
+test('duplicate or unrecognized database roles fail closed',async()=>{
+ for(const access of [[{role:'auditor'}],[{role:'collector'},{role:'reviewer'}]]){
+  const db=databaseFixture([[],[],access]);
+  assert.equal(await runFollowup(db.sql,'history',{artifact_id:artifact,finding_id:'x',after_sequence:0},{actorId:actor,sessionId:session}),null);
+ }
 });

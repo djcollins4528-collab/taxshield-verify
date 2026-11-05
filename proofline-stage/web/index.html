@@ -8,14 +8,29 @@
 <main id=main-content tabindex=-1>
 <div class="lead"><span class="eyebrow">Evidence-backed review</span><h1>Assessment review workbench</h1><p>Review the immutable synthetic assessment draft and record a controlled decision. This is not a customer portal or production assessment system.</p></div>
 <div class="notice"><strong>Release locked.</strong> Synthetic assessments cannot be approved or delivered. New account registration, customer intake, billing and report distribution are unavailable.</div>
-<section id="loginPanel"><h2>Reviewer sign-in</h2><p>Use an existing confirmed staging reviewer account. Sign-in does not grant reviewer access by itself.</p>
+<section id="loginPanel"><h2>Staging sign-in</h2><p>Use an existing confirmed collector or reviewer account. Permissions are checked on each request.</p>
 <form id="loginForm" autocomplete="on"><label for="email">Staging email</label><input id="email" type="email" autocomplete="username" required maxlength="254" placeholder="reviewer@example.org">
 <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required maxlength="512" placeholder="Staging account password">
 <div class="actions"><button type="submit" id="signinButton">Sign in to staging</button></div></form>
 <p class="muted">Passwords are sent to Supabase Auth over HTTPS and are not stored by this page. No signup is provided.</p></section>
 <section id="reviewPanel" class="hide"><div class="actions review-heading"><h2>Review workspace</h2><button type="button" id="signoutButton" class="secondary">Sign out</button></div>
 <p id="identity" class="muted"></p><p class="muted">Synthetic artifact: <code id="artifactId"></code></p>
-<div class="actions"><button type="button" id="loadButton">Retrieve assessment</button></div>
+<div class="actions"><button type="button" id="loadButton">Retrieve assessment (reviewer)</button></div>
+<section id="followupPanel" aria-labelledby="followupHeading">
+<h2 id="followupHeading">Remediation and retest history</h2>
+<p>Collectors record a synthetic remediation attempt; reviewers independently record a retest. A retest PASS does not approve or release the assessment.</p>
+<label for="followupFinding">Synthetic finding</label><select id="followupFinding"><option value="PL-SYN-001">PL-SYN-001</option><option value="PL-SYN-002">PL-SYN-002</option></select>
+<div class="actions"><button type="button" id="historyButton">Retrieve finding history</button><button type="button" id="moreHistoryButton" class="secondary hide">Load next history page</button></div>
+<div id="historyArea" class="hide" tabindex="-1"><p id="followupStatus"></p><ol id="followupHistory"></ol></div>
+<form id="followupForm" class="hide">
+<h3 id="followupAction"></h3><p class="muted">Synthetic observations only. Do not enter customer information.</p>
+<div id="outcomeField" class="hide"><label for="followupOutcome">Retest outcome</label><select id="followupOutcome"><option value="INCONCLUSIVE">INCONCLUSIVE</option><option value="PASS">PASS</option><option value="FAIL">FAIL</option><option value="NOT_TESTED">NOT_TESTED</option><option value="NOT_APPLICABLE">NOT_APPLICABLE</option></select></div>
+<label for="followupObservation">Observation (15–4000 characters)</label><textarea id="followupObservation" required minlength="15" maxlength="4000" rows="3"></textarea>
+<label for="followupCriterion">Verification criterion (15–2000 characters)</label><textarea id="followupCriterion" required minlength="15" maxlength="2000" rows="3"></textarea>
+<label for="followupLimitations">Limitations (15–2000 characters)</label><textarea id="followupLimitations" required minlength="15" maxlength="2000" rows="3"></textarea>
+<label class="confirmation"><input id="syntheticOnly" type="checkbox" required> I confirm this contains synthetic observations only and no customer information.</label>
+<div class="actions"><button type="submit" id="submitFollowup">Record synthetic event</button></div>
+</form></section>
 <div id="reportArea" class="hide" aria-live="polite" tabindex="-1">
 <div class="panel"><h3 id="headline"></h3><p id="summary"></p><div class="kv">SHA-256: <code id="fingerprint"></code></div><p class="muted">Status: <strong>DRAFT_NOT_APPROVED</strong> · Customer delivery: <strong>BLOCKED</strong></p></div>
 <div class="columns"><div><h2>Findings</h2><div id="findings"></div></div><div><h2>Remediation plan</h2><div id="remediations"></div></div></div>
