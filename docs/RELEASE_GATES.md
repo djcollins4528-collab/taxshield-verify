@@ -12,7 +12,7 @@ proofline-stage/release/production-readiness.json remains intact.
 | D Browser acceptance | BLOCKED | Full workflow, manual accessibility, device acceptance; real owner-controlled sign-in/report/decision subset passes |
 | E Recovery | BLOCKED | Production-equivalent restore and independent verification |
 | F Customer workflow | BLOCKED | Full inquiry-to-delivery-to-reverification rehearsal |
-| G Commercial readiness | BLOCKED | Reviewed scope, legal terms, onboarding, support and launch prerequisites |
+| G Commercial readiness | BLOCKED | Offer v1.0 defined; legal terms, onboarding, support, actual cost verification and launch prerequisites still open |
 | H Billing readiness | BLOCKED | Sandbox reconciliation, failure and refund acceptance |
 | I Owner authorization | BLOCKED | Explicit intake, customer data and live-payment approvals |
 

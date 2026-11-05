@@ -1,6 +1,11 @@
 # Proofline changelog
 
 ## 2026-11-04
+- Completed launch checklist #1 offer definition: one-identity Microsoft Entra
+  Offboarding Evidence Review, $1,950 one-time, bounded evidence/result rules,
+  deliverables, schedule, customer duties, acceptance, cancellation and included retest.
+  Added proposal template and explicit cost/sensitivity model; aligned marketing source
+  and fictional sample. No public marketing deployment or sale activation claimed.
 - Deployed private synthetic remediation/reverification ledger with immutable
   report/finding/review links, role/session checks, typed evidence and retained history.
   21 new isolated acceptance assertions pass; no API grants or delivery activation.

@@ -1,0 +1,20 @@
+{
+  "offer_version": "1.0",
+  "currency": "USD",
+  "service_price": 1950,
+  "kickoff_payment": 975,
+  "delivery_payment": 975,
+  "stage_allocations": {"collection": 600, "assessment_review": 850, "initial_report": 300, "retest": 200},
+  "planning_only": true,
+  "actual_reviewer_quote_verified": false,
+  "demand_validated": false,
+  "spending_authorized": false,
+  "fee_allowance_rate": 0.035,
+  "fee_allowance_fixed": 0.30,
+  "minimum_modeled_margin": 0.25,
+  "scenarios": [
+    {"name": "baseline", "owner_hours": 7, "owner_hourly_value": 100, "reviewer_hours": 1.5, "reviewer_hourly_allowance": 150, "operating_allowance": 75, "contingency": 195},
+    {"name": "moderate_overrun", "owner_hours": 10, "owner_hourly_value": 100, "reviewer_hours": 2.5, "reviewer_hourly_allowance": 150, "operating_allowance": 100, "contingency": 195},
+    {"name": "severe_overrun", "owner_hours": 12, "owner_hourly_value": 125, "reviewer_hours": 3, "reviewer_hourly_allowance": 200, "operating_allowance": 100, "contingency": 195}
+  ]
+}

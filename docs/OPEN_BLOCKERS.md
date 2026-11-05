@@ -11,7 +11,9 @@
 4. Authorized Entra development tenant access and least-privilege Graph permission
    acceptance are not established in this session.
 5. Independent production custody/recovery and merchant sandbox acceptance are missing.
-6. Commercial/legal prerequisites and explicit owner activation approvals remain open.
+6. Checklist #1 offer definition is complete (PILOT_DELIVERY_BRIEF.md, $1,950 one-time).
+   Actual reviewer quotes/buyer demand, legal/operating prerequisites and explicit
+   owner activation approvals remain open.
 
 Closed scoped leads: report retrieval 503 not reproduced (fresh 17/17 rehearsal);
 pg_net public-schema warning resolved; two confirmed role accounts retained, zero

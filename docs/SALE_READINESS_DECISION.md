@@ -41,9 +41,9 @@ changed or exposed. No users/sessions/acceptance markers were fabricated.
 | Approved customer report and delivery | Immutable synthetic draft; approval and delivery disabled | Core paid deliverable cannot yet be produced/delivered through this system |
 | Remediation/reverification | Database contracts and API implemented; role-aware UI added | Genuine end-to-end followup acceptance still required |
 | Custody and recovery | Isolated schema/data recovery subsets tested; independent production key/storage custody unverified | Cannot promise production evidence custody/recovery on current evidence |
-| Commercial operations | Working draft offer; final scope, contracting/data terms, operator/support and applicable business prerequisites not verified in this checkout | Commercial activation remains blocked; this record makes no finding about current legal status |
+| Commercial operations | Offer v1.0 defined in PILOT_DELIVERY_BRIEF.md; contracting/data terms, operator/support and applicable business prerequisites remain unverified | Commercial activation remains blocked; this record makes no finding about current legal status |
 | Billing | Live payments disabled; merchant sandbox reconciliation not established | No verified purchase/failure/refund-to-delivery workflow |
-| Demand and pricing | $1,500 scoped review and $1,250/month are recorded hypotheses | No validated willingness-to-pay or revenue forecast follows from engineering tests |
+| Demand and pricing | $1,950 one-time pilot price selected with modeled economics; former review/subscription hypotheses superseded | No validated willingness-to-pay or revenue forecast follows from engineering tests |
 
 The database's 6/9 preflight is **not 67% launch readiness**. Two absent live
 sessions are appropriate after cleanup; keeping sessions open would not complete
@@ -63,7 +63,7 @@ That is a count of incomplete acceptance gates, not a percentage of code complet
    claim. Complete one bounded engagement rehearsal from authorized source collection
    through assessment, review, simulated customer delivery, remediation and retest.
    Verify production-equivalent data/key custody and restore before customer data.
-3. **Make the engagement operable.** Finalize a bounded first-pilot scope, exclusions,
+3. **Make the engagement operable.** Use the defined first-pilot scope/exclusions in PILOT_DELIVERY_BRIEF.md; finalize
    evidence/retention/deletion terms, accountable operator, support/incident process
    and acceptance criteria. Verify the intended contracting identity and applicable
    business/contracting prerequisites. Existing historical approvals are not treated

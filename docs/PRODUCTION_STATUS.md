@@ -50,5 +50,7 @@ not the nine broader A–I production gates; none of those broad gates is fully 
 
 Limitations: no independent human reviewer acceptance; no live Graph collection; no full customer
 journey, payment sandbox, independent production key custody or production recovery.
-No customer or revenue success is claimed. Price hypotheses remain $1,500 scoped
-review / $1,250 monthly assurance, subject to validation.
+No customer or revenue success is claimed. Checklist #1 is now defined in
+PILOT_DELIVERY_BRIEF.md: Microsoft Entra Offboarding Evidence Review, $1,950 one-time.
+The former $1,500/$1,250 hypotheses are superseded for the first offer. Buyer demand
+and actual delivery economics remain unvalidated; no subscription is offered.
