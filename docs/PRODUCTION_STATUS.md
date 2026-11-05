@@ -7,7 +7,7 @@ not the nine broader A–I production gates; none of those broad gates is fully 
 ## Verified this cycle
 - Business checklist #2: recovered prior restricted-scope DCJS opinion, preserved
   owner-attested employer status, reconciled county account/fee guidance and prepared
-  private filing/bookkeeping package. No formation/DBA/EIN/county/bank completion
+  private filing/bookkeeping package. No Proofline Assurance LLC formation/EIN/county/bank completion
   claimed. See BUSINESS_OPERATING_STATUS.md; sales and spending holds remain.
 - Role-aware remediation/retest workbench and API v2 deployed. 60 Chromium/WebKit
   browser cases, 34 followup contracts, 36 existing Node checks and four migration

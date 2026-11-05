@@ -14,7 +14,7 @@
 6. Checklist #1 offer definition is complete (PILOT_DELIVERY_BRIEF.md, $1,950 one-time).
    Actual reviewer quotes/buyer demand, legal/operating prerequisites and explicit
    owner activation approvals remain open. Checklist #2 evidence reconciliation and
-   private filing/bookkeeping packet are prepared; actual formation, DBA, EIN,
+   private filing/bookkeeping packet are prepared; actual Proofline Assurance LLC formation, EIN,
    county disposition and bank opening are not complete. See BUSINESS_OPERATING_STATUS.md.
 
 Closed scoped leads: report retrieval 503 not reproduced (fresh 17/17 rehearsal);

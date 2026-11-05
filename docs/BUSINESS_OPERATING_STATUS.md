@@ -1,6 +1,6 @@
 # Proofline business operating status - checklist #2
 
-Reviewed November 4, 2026 (America/New_York). **PARTIAL / NOT CLEARED FOR SALES.**
+Reviewed November 5, 2026 (UTC). **PARTIAL / NOT CLEARED FOR SALES.**
 This public-safe record omits the owner's filing address, tax/bank identifiers,
 private correspondence and signatures. The detailed filing worksheet and evidence
 review are in the owner's separate private review packet, not this repository.
@@ -9,10 +9,10 @@ review are in the owner's separate private review packet, not this repository.
 
 | Requirement | Work completed | What remains |
 |---|---|---|
-| Legal seller / Proofline name | Prepared Cendralis Security Advisory LLC with Proofline Assurance as a proposed entity-associated trading name, based on the earlier LLC choice | Confirm final seller/trade-name choice; no active entity or DBA asserted |
+| Legal seller / Proofline name | Owner selected Proofline Assurance as the sole active brand; proposed legal seller is Proofline Assurance LLC | Availability, formation and accepted legal name unverified; prior legal-seller/DBA proposal withdrawn |
 | Structure / agent | Carried forward single-member, member-managed Virginia LLC and prior owner-agent choices in the private worksheet | Owner verifies official form and signs; no filed articles or capital contribution invented |
 | Entity / name registration | Filing inputs, sequence and fee schedule researched; official SCC registry attempted twice | CIS timed out; current name availability unverified; formation not submitted or accepted |
-| DBA | Entity-associated certificate instructions prepared; state filing fee $10 | Accepted entity first, then authorized certificate filing/acceptance |
+| Contracting name | Plan to use the exact accepted Proofline Assurance LLC name on contracts, invoices and bank records | No separate DBA planned; reassess if formal trading name differs |
 | EIN | Free IRS application worksheet/sequence prepared | Formation first; responsible-party identity/TIN entry and actual IRS confirmation |
 | County / zoning | Read October 13 and November 2 county replies; reconciled account sequence and fee discrepancy | Final seller, true start date/receipts estimate, appropriate zoning review/confirmation and county account/license disposition |
 | Employer | Preserved earlier owner instruction marking this gate complete; recorded as owner-attested | No employer-issued letter established by this review; no unsolicited new employer contact or fabricated institutional approval |
@@ -29,14 +29,15 @@ missing. It does not approve product security, evidence custody or a customer la
 
 ## Concrete fee and filing decisions
 
-- Official SCC fee: $100 domestic Virginia LLC formation; proposed entity DBA $10.
-  Proposed state filing total **$110**, still held under the standing no-spend
-  instruction. LLC annual registration is **$50** after formation.
+- Proposed SCC formation fee: **$100** for Proofline Assurance LLC, still held under
+  the standing no-spend instruction. The prior $110 LLC-plus-DBA proposal is withdrawn.
+  Use the exact accepted legal name on formal records; no separate DBA planned.
+  LLC annual registration is **$50** after formation.
 - No optional name reservation, third-party formation service or paid EIN service.
 - IRS EIN is free, but it is not applied for before the intended entity exists.
 - County November 2 reply says a new business needs its own zoning form even at the
-  same address. Do not assume the prior Cendralis review transfers to a separate
-  venture or account. Confirm the final seller/trading-name arrangement with County.
+  same address. Do not assume the retired venture review transfers to a separate
+  venture or account. Obtain the new Proofline entity zoning/account disposition from County.
 - October 13 county correspondence quoted $30 for $4,000-$14,999.99; November 2
   quoted $50. Provisionally budget $50 in that band and resolve the actual invoice
   before paying. This is a documented discrepancy, not an asserted ordinance change.
@@ -74,8 +75,8 @@ statements and review unpaid invoices/reserve obligations. No paid software adde
 
 ## Owner decisions / handoffs needed
 
-1. Confirm the proposed Cendralis seller + Proofline Assurance trading name and
-   whether to release the prior spending hold for the $110 state fees, acknowledging
+1. Verify availability of Proofline Assurance LLC and obtain authorization for
+   the $100 formation fee under the existing spending hold, acknowledging
    the $50 annual LLC registration obligation. Name availability must be checked
    when CIS is reachable. No fees or signature can be inferred from this record.
 2. After formation, complete private IRS responsible-party taxpayer-ID entry and
