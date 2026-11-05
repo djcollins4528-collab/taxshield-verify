@@ -1,0 +1,24 @@
+name: Proofline pilot delivery and SLA release lock
+on:
+  push:
+    paths:
+      - 'proofline-stage/ci/pilot-sla-gate*.mjs'
+      - '.github/workflows/proofline-pilot-sla-gate.yml'
+  pull_request:
+    paths:
+      - 'proofline-stage/ci/pilot-sla-gate*.mjs'
+      - '.github/workflows/proofline-pilot-sla-gate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  release-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Enforce no-go for unverified delivery and human reviewer
+        run: node --test proofline-stage/ci/pilot-sla-gate.test.mjs
