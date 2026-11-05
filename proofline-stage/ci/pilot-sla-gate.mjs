@@ -4,7 +4,7 @@ const fail=(reason)=>({decision:'NO_GO',reason});
 const validTime=x=>typeof x==='string'&&Number.isFinite(Date.parse(x))&&/(Z|[+-]\d\d:\d\d)$/.test(x);
 const weekday=d=>d.getUTCDay();
 function nth(y,m,w,n){const first=new Date(Date.UTC(y,m-1,1));return new Date(Date.UTC(y,m-1,1+(w-first.getUTCDay()+7)%7+7*(n-1)));}
-function last(y,m,w){const end=new Date(Date.UTC(y,m,0));return new Date(Date.UTC(y,m,end.getUTCDate()-(end.getUTCDay()-w+7)%7)));}
+function last(y,m,w){const end=new Date(Date.UTC(y,m,0));return new Date(Date.UTC(y,m,end.getUTCDate()-(end.getUTCDay()-w+7)%7));}
 function observed(y,m,d){const x=new Date(Date.UTC(y,m-1,d));if(x.getUTCDay()===6)x.setUTCDate(x.getUTCDate()-1);if(x.getUTCDay()===0)x.setUTCDate(x.getUTCDate()+1);return x;}
 function daykey(d){return d.toISOString().slice(0,10);}
 function nyDay(x){const parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(x));const obj=Object.fromEntries(parts.map(p=>[p.type,p.value]));return obj.year+'-'+obj.month+'-'+obj.day;}
