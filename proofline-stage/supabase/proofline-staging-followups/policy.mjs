@@ -12,7 +12,9 @@ const keys=(v,expected)=>object(v)&&Object.keys(v).sort().join(',')===expected.s
 const text=(v,min,max)=>typeof v==='string'&&v.trim().length>=min&&v.length<=max&&!/[\u0000-\u001f\u007f]/.test(v);
 export function validateAppend(v) {
  if(!keys(v,'artifact_id,expected_sha256,review_decision_id,finding_id,sequence,previous_id,kind,outcome,evidence'))return null;
- if(!UUID.test(v.artifact_id)||!UUID.test(v.review_decision_id)||!HASH.test(v.expected_sha256))return null;
+ if(typeof v.artifact_id!=='string'||!UUID.test(v.artifact_id)||
+    typeof v.review_decision_id!=='string'||!UUID.test(v.review_decision_id)||
+    typeof v.expected_sha256!=='string'||!HASH.test(v.expected_sha256))return null;
  if(!text(v.finding_id,1,100)||v.finding_id!==v.finding_id.trim())return null;
  if(!Number.isInteger(v.sequence)||v.sequence<1||v.sequence>2147483647)return null;
  if(v.sequence===1 ? v.previous_id!==null||v.kind!=='remediation' : typeof v.previous_id!=='string'||!UUID.test(v.previous_id))return null;

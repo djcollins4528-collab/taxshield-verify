@@ -1,10 +1,14 @@
-# Proofline production status — 2026-11-04
+# Proofline production status — 2026-11-05
 
 NO-GO. Customer intake, live billing and customer delivery remain disabled.
 Latest observed database preflight: 6/9 passing after confirmed account acceptance. These are identity/database checks,
 not the nine broader A–I production gates; none of those broad gates is fully verified.
 
 ## Verified this cycle
+- Two real owner-controlled staging sessions recorded and re-read a synthetic
+  remediation and an inconclusive retest. Both evidence hashes matched. Cleanup
+  left zero sessions. Followup API v5 also validates identifier and digest types
+  before database access. See LIVE_FOLLOWUP_ACCEPTANCE.md.
 - Business checklist #3: complete draft customer-contract/data-term package prepared
   under contracts/. Legal/insurance/production and actual signature evidence remains
   absent; the gate remains blocked and customer activation is unchanged.
@@ -15,12 +19,12 @@ not the nine broader A–I production gates; none of those broad gates is fully 
 - Role-aware remediation/retest workbench and API v2 deployed. 60 Chromium/WebKit
   browser cases, 34 followup contracts, 36 existing Node checks and four migration
   inventory checks pass; all six CI workflows green. Deployed HTML/CSS/JS match
-  tested source. Genuine followup acceptance remains unexecuted; see
+  tested source. For that deployment checkpoint see
   FOLLOWUP_WORKBENCH_ACCEPTANCE.md and SALE_READINESS_DECISION.md.
 - Synthetic followup API v1 deployed: authenticated append and paginated history,
   32 mocked contract tests, two live gateway denials; 36 existing Node regressions
-  and four migration inventory tests pass. No live followup append has been tested.
-  See FOLLOWUP_API_ACCEPTANCE.md. Browser controls subsequently completed; live acceptance remains pending.
+  and four migration inventory tests passed at the v1 checkpoint.
+  See FOLLOWUP_API_ACCEPTANCE.md for the historical implementation evidence.
 - Remediation/reverification database layer deployed as migration 20261104200937.
   21 new isolated assertions and 21 existing security checks pass; all seven live
   catalog categories match the 38-migration rebuild. New ledger has no client grants; a server-only staging API was subsequently

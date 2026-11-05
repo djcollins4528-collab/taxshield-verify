@@ -15,6 +15,13 @@ function fixture(overrides={}) {
  const call=async({method='POST',route='append',body=payload(),headers={},token=jwt()}={})=>handler(new Request('https://test.invalid/functions/v1/proofline-staging-followups/'+route,{method,headers:{authorization:'Bearer '+token,'content-type':'application/json',...headers},...(method==='POST'?{body:typeof body==='string'?body:JSON.stringify(body)}:{})}));
  return {call,calls,handler};
 }
+for(const key of ['artifact_id','review_decision_id','expected_sha256'])test('reject array supplied for '+key,async()=>{
+ const {call,calls}=fixture();
+ const body=payload();
+ body[key]=[body[key]];
+ assert.equal((await call({body})).status,400);
+ assert.equal(calls.length,0);
+});
 test('verified identity alone supplies actor and session; response always locks delivery',async()=>{
  const {call,calls}=fixture();const r=await call();assert.equal(r.status,201);
  assert.deepEqual(calls[0][2],{actorId:actor,sessionId:session});

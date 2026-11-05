@@ -7,6 +7,12 @@ This is an engineering/operational assessment, not a legal determination.
 
 ## Evidence boundary
 
+November 5 update. The approved staging collector and reviewer completed the
+remediation and reverification workflow through the deployed browser controls.
+The retest was inconclusive because the original criterion requires externally
+reviewed evidence. The next technical gate is synthetic recipient handoff.
+See LIVE_FOLLOWUP_ACCEPTANCE.md for the two retained events and release state.
+
 The inspected system is PR #12 in `djcollins4528-collab/taxshield-verify`, existing
 Supabase project `pgknyzwctmfqvlivlgpe`, and Vercel project
 `proofline-assurance-staging`. It is not a deployed customer production system.
@@ -22,7 +28,7 @@ only the next role's action and requires a fresh read after conflict, timeout or
 uncertain append outcome. Automated browser acceptance/deployment evidence is
 recorded separately in FOLLOWUP_WORKBENCH_ACCEPTANCE.md.
 
-Current live database checks: 16/16 private tables have RLS, zero client private-table
+November 4 database checks: 16/16 private tables have RLS, zero client private-table
 grants, two confirmed role users, zero sessions and zero followup rows; existing
 reports remain locked drafts. Prior genuine owner-account sign-in/report/review
 tests passed. No genuine followup writes or retests were performed in this cycle:
@@ -39,7 +45,7 @@ changed or exposed. No users/sessions/acceptance markers were fabricated.
 | Source collection and assessment | Current authorized development-tenant/least-privilege Graph acceptance absent | Cannot claim a complete current Microsoft 365 assessment has been proved |
 | Independent review | Separate owner-controlled Auth accounts and role controls tested | Does not establish an independently accountable human reviewer |
 | Approved customer report and delivery | Immutable synthetic draft; approval and delivery disabled | Core paid deliverable cannot yet be produced/delivered through this system |
-| Remediation/reverification | Database contracts and API implemented; role-aware UI added | Genuine end-to-end followup acceptance still required |
+| Remediation/reverification | Live synthetic collector/reviewer workflow passed November 5 | Independent human review and authorized customer evidence still required |
 | Custody and recovery | Isolated schema/data recovery subsets tested; independent production key/storage custody unverified | Cannot promise production evidence custody/recovery on current evidence |
 | Commercial operations | Offer v1.0 defined in PILOT_DELIVERY_BRIEF.md; contracting/data terms, operator/support and applicable business prerequisites remain unverified | Commercial activation remains blocked; this record makes no finding about current legal status |
 | Billing | Live payments disabled; merchant sandbox reconciliation not established | No verified purchase/failure/refund-to-delivery workflow |

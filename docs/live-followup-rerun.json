@@ -1,0 +1,28 @@
+{
+  "observed_at": "2026-11-05T13:57:01.755Z",
+  "artifact": "7aca4913-3869-4d47-932a-699ac060af76",
+  "finding": "PL-SYN-002",
+  "decision": "a86c83e5-9c54-474e-a284-e9c9c48b0314",
+  "source": "f5e54ce59405395351901e604da8a13ded572cc2502ebeb94b08db7abe969d6d",
+  "created": [],
+  "checks": [
+    "collector duplicate rejected",
+    "collector wrong-role append denied",
+    "collector forged actor rejected",
+    "collector malformed artifact rejected",
+    "collector verified persisted event",
+    "collector revoked history denied",
+    "reviewer duplicate rejected",
+    "reviewer wrong-role append denied",
+    "reviewer forged actor rejected",
+    "reviewer malformed artifact rejected",
+    "reviewer verified persisted event",
+    "reviewer revoked history denied",
+    "fresh reviewer session retrieves both linked events",
+    "reviewer revoked history denied",
+    "fresh collector session retrieves both linked events",
+    "collector revoked history denied"
+  ],
+  "customer_delivery_allowed": false,
+  "outcome": "INCONCLUSIVE"
+}

@@ -134,9 +134,9 @@
     },
     {
       "slug": "proofline-staging-followups",
-      "version": 2,
+      "version": 5,
       "verify_jwt": true,
-      "bundle_sha256": "1c2078c012a0e47ca8deaf99b119eaddeb00f1829686dc723bfe677d7390a4b7",
+      "bundle_sha256": "e9d419046a37757b77030dd48c411aac8f13726fe1e2eb782ae77126cd93d8e1",
       "files": [
         "proofline-staging-followups/index.ts",
         "proofline-staging-followups/policy.mjs",
