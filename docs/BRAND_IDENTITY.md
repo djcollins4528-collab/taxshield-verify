@@ -19,7 +19,27 @@ parent, a contact mailbox, or the basis of new sales copy.
 - Archive superseded working templates/assets. They are not current marketing,
   scope, pricing or deployment sources. Do not restore them as active material.
 
-Source updates do not prove that every previously published site or third-party
-account has been retired. The legacy Render deployment could not be inspected:
-its connector requires a user-selected workspace. No live replacement is claimed.
+## Legacy public-site replacement
+
+On November 5, 2026 the owner selected Render **My Workspace**
+(`tea-daui7k7lot8c73b8d9l0`). The existing static service
+`srv-db4j2ufavr4c73fefb2g` was updated in place with Proofline prelaunch pages.
+Its legacy hosting URL remains `https://cendralis-security.onrender.com/`; this
+is an existing address, not an active legacy brand or a new Proofline domain.
+
+- Publication repository: `djcollins4528-collab/cendralis-security-advisory`.
+  Its README marks the old business/source as retired. Historical internal code
+  and repository/service identifiers have not been renamed or erased.
+- Published commit: `f7960e1b962cf6e72cbf71623c5268fd3af30128`.
+- Render deployment: `dep-dbm0bad9fdbs73belifg` (clean rebuild), status **live**.
+- The source public directory was replaced as a whole. Initial live verification
+  returned CDN-cached legacy URLs (response `s-maxage=300`). After a clean
+  redeployment and cache expiry, live checks verified the exact home, method,
+  demo and CSS bytes; the old assessment PDF, services page and product workbench
+  all return HTTP 404.
+- Replacement includes the current home, method, fictional demo and retired-page
+  response, local CSS, CSP/SRI controls, keyboard focus and noindex protection.
+- No new hosting resource or subscription was created. Automatic deploys remain
+  disabled. This publication does not satisfy the broader production release gates.
+
 Customer intake, collection, delivery and payments remain disabled.
