@@ -3,7 +3,7 @@
 1. Confirmed owner-controlled collector/reviewer accounts pass real sign-in, report
    and decision acceptance. Independent human reviewer acceptance is still absent;
    two aliases controlled by one owner do not establish operational independence.
-2. All 15 deployed Edge Functions and 38 recorded database migrations are recovered.
+2. Source is recorded for 16 deployed Edge Functions and 38 database migrations.
    The isolated rebuild matches seven captured live catalog categories. Supabase
    extension/Auth integration and independent evidence/key recovery remain unverified.
    Separately packaged custody engine is unavailable here.
@@ -24,8 +24,9 @@ Browser/session UI fixes are tracked in the deployment acceptance record.
 
 Real-session followup acceptance passed on November 5. Two confirmed staging accounts
 recorded linked remediation and reverification events and retrieved them in fresh
-sessions. See LIVE_FOLLOWUP_ACCEPTANCE.md. The next delivery gate is a complete
-synthetic engagement and recipient handoff rehearsal. Independent human review,
+sessions. See LIVE_FOLLOWUP_ACCEPTANCE.md. The synthetic recipient handoff also
+passed on November 5, including byte verification and withdrawal in an active session.
+See SYNTHETIC_RECIPIENT_HANDOFF.md. Full engagement rehearsal, independent human review,
 custody and explicit launch authorization are still required for customer handoff.
 
 Latest Security Advisor also flags disabled leaked-password protection. Review

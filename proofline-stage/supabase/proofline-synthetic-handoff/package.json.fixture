@@ -1,0 +1,10 @@
+{
+  "classification": "SAMPLE / SYNTHETIC",
+  "package_id": "72dc93cf-0011-4531-b54a-69ebccb244ac",
+  "purpose": "Recipient handoff acceptance",
+  "finding": "PL-SYN-002",
+  "outcome": "INCONCLUSIVE",
+  "remediation_event": "3b75fc22-05c3-4c8f-8950-bc47b76e9391",
+  "reverification_event": "7b5b3f6f-10d7-416d-b5a3-f6ea4cc9de62",
+  "customer_delivery_allowed": false
+}

@@ -1,0 +1,69 @@
+{
+  "package_id": "72dc93cf-0011-4531-b54a-69ebccb244ac",
+  "expected_sha256": "cfd34e8c3deda597e4b110bff2f8828bb59c9d3bae35d1dd227089fee6749587",
+  "checks": [
+    {
+      "name": "anonymous denied",
+      "http_status": 401
+    },
+    {
+      "name": "recipient denied before issue",
+      "http_status": 403
+    },
+    {
+      "name": "recipient cannot issue",
+      "http_status": 403
+    },
+    {
+      "name": "issuer grants package",
+      "http_status": 201
+    },
+    {
+      "name": "issuer denied recipient download",
+      "http_status": 403
+    },
+    {
+      "name": "recipient cannot withdraw",
+      "http_status": 403
+    },
+    {
+      "name": "recipient retrieves exact package",
+      "http_status": 200
+    },
+    {
+      "name": "direct private object access denied while issued",
+      "http_status": 400
+    },
+    {
+      "name": "issuer withdraws access",
+      "http_status": 200
+    },
+    {
+      "name": "same recipient session denied after withdrawal",
+      "http_status": 403
+    },
+    {
+      "name": "recipient session still authenticated",
+      "http_status": 200
+    },
+    {
+      "name": "repeat withdrawal safe",
+      "http_status": 200
+    },
+    {
+      "name": "withdrawn grant cannot be reissued",
+      "http_status": 409
+    },
+    {
+      "name": "new recipient session denied after withdrawal",
+      "http_status": 403
+    },
+    {
+      "name": "direct private object denied after withdrawal",
+      "http_status": 400
+    }
+  ],
+  "received_sha256": "cfd34e8c3deda597e4b110bff2f8828bb59c9d3bae35d1dd227089fee6749587",
+  "size_bytes": 369,
+  "completed_at": "2026-11-05T14:10:29.133Z"
+}

@@ -1,5 +1,5 @@
 {
-  "observed_date": "2026-11-04",
+  "observed_date": "2026-11-05",
   "project": "pgknyzwctmfqvlivlgpe",
   "functions": [
     {
@@ -142,6 +142,17 @@
         "proofline-staging-followups/policy.mjs",
         "proofline-staging-followups/handler.mjs",
         "proofline-staging-followups/database.mjs",
+        "proofline-staging-auth/policy.mjs"
+      ]
+    },
+    {
+      "slug": "proofline-synthetic-handoff",
+      "version": 1,
+      "verify_jwt": true,
+      "bundle_sha256": "0523ac2fc8af90298e084efd6c1133b7b7f369458e2565aeede758c6e55b4029",
+      "files": [
+        "proofline-synthetic-handoff/index.ts",
+        "proofline-synthetic-handoff/package.mjs",
         "proofline-staging-auth/policy.mjs"
       ]
     }
