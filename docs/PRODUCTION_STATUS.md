@@ -5,6 +5,9 @@ Latest observed database preflight: 6/9 passing after confirmed account acceptan
 not the nine broader A–I production gates; none of those broad gates is fully verified.
 
 ## Verified this cycle
+- Business checklist #3: complete draft customer-contract/data-term package prepared
+  under contracts/. Legal/insurance/production and actual signature evidence remains
+  absent; the gate remains blocked and customer activation is unchanged.
 - Business checklist #2: recovered prior restricted-scope DCJS opinion, preserved
   owner-attested employer status, reconciled county account/fee guidance and prepared
   private filing/bookkeeping package. No Proofline Assurance LLC formation/EIN/county/bank completion

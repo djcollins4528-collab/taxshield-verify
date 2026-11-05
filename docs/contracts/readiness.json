@@ -1,0 +1,76 @@
+{
+  "schema": "proofline.contract.readiness.v1",
+  "version": "0.1",
+  "reviewed_date": "2026-11-05",
+  "timezone": "America/New_York",
+  "state": "blocked",
+  "drafting": "prepared",
+  "executable": false,
+  "customer_processing_authorized": false,
+  "payment_authorized": false,
+  "proposed_supplier": "Proofline Assurance LLC (unformed/unverified)",
+  "service_fee_usd": 1950,
+  "payment_installments_usd": [
+    975,
+    975
+  ],
+  "milestone_allocations_usd": [
+    600,
+    850,
+    300,
+    200
+  ],
+  "retention_policy": {
+    "implementation_verified": false,
+    "closure_to_retention_days": 90,
+    "primary_deletion_window_days": 30,
+    "backup_expiry_after_primary_days": 35,
+    "default_max_days_after_closure_without_hold": 155
+  },
+  "evidence": {
+    "formed_supplier_and_notice_contacts": {
+      "state": "unverified",
+      "evidence_ref": null
+    },
+    "counsel_disposition": {
+      "state": "unverified",
+      "evidence_ref": null
+    },
+    "production_security_and_deletion": {
+      "state": "unverified",
+      "evidence_ref": null
+    },
+    "approved_provider_location_schedule": {
+      "state": "unverified",
+      "evidence_ref": null
+    },
+    "bound_insurance_and_customer_requirements": {
+      "state": "unverified",
+      "evidence_ref": null
+    },
+    "verified_customer_authority": {
+      "state": "unverified",
+      "evidence_ref": null
+    },
+    "signed_customer_documents": {
+      "state": "unverified",
+      "evidence_ref": null
+    },
+    "explicit_launch_authorization": {
+      "state": "unverified",
+      "evidence_ref": null
+    }
+  },
+  "source_hashes": {
+    "00_README.md": "857dcc59215b710f382005ad61aa4a24beea698481c860a902fa3ef620cc24a0",
+    "01_SERVICE_AGREEMENT.md": "6dbc4a5bd15e97f93d2cf264fb7239108fb764ba019c9d4f94e50e002a27cca4",
+    "02_PILOT_SOW.md": "d92f1f743f42127ba313bc7f14e9e882d26b2b4fd620667ad0d530321a75d6b4",
+    "03_AUTHORIZATION_AND_CHANGE_ORDER.md": "56639e93c6fd5400bc6637cedb563b6f57dedd1e77327d114466899701ebc55d",
+    "04_DATA_PROCESSING_AND_SECURITY.md": "b8bb340a8ddcce13018d76e0a53275ad72e38a73fa934a7b51513026730a62ce",
+    "05_SUBPROCESSORS_AND_DATA_REGISTER.md": "24555716d44e850853188f4ac7d34152ead68a6c958da5836be0c29036847661",
+    "06_PRIVACY_NOTICE_DRAFT.md": "1971278a3964d9fcb5fc8fec0c220db6b40217fca296a3dde4af2e0ba9968664",
+    "07_INSURANCE_AND_COUNSEL_HANDOFF.md": "f8cdbc4fdcae33050d3e22356b81bd29aa66202ccdcdb22f968e9d1d98007e00",
+    "08_EXECUTION_AND_CLOSEOUT.md": "df329991c0bdf5be27e21150d733eb532a5437d99a8f5b0229654748913e1054",
+    "SOURCES_AND_REVIEW.md": "cea30de4dd37d1083119479b23668e3e7a3a8851fc652d0a60ce413e17a5bce9"
+  }
+}

@@ -53,3 +53,7 @@ verification, mailbox/file-link inventory, incident response, configuration chan
 certification or a compliance guarantee. Hybrid/guest/privileged accounts and active
 suspected compromise are excluded. Attach the full canonical scope and reviewed terms;
 this summary cannot expand or override them. No customer engagement is accepted here.
+
+Contract review package: ../contracts/00_README.md. Use the full fixed SOW, MSA,
+written authority and DPA with completed provider/security schedules; this proposal
+is not a substitute for them. Draft terms remain unsigned and do not authorize sale.

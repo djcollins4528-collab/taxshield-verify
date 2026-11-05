@@ -32,3 +32,7 @@ customer handoff still requires independent reviewer, custody and launch accepta
 Latest Security Advisor also flags disabled leaked-password protection. Review
 the existing plan's available Auth protection before production; no paid upgrade
 is authorized. Private no-policy tables remain intentionally inaccessible to clients.
+
+Checklist #3 drafting is prepared in contracts/00_README.md. Actual counsel disposition,
+formed supplier/contacts, production provider/security/deletion verification, bound
+insurance/customer requirements and genuine customer execution remain outstanding.
