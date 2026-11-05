@@ -124,9 +124,9 @@
     },
     {
       "slug": "proofline-staging-review-workbench",
-      "version": 4,
+      "version": 5,
       "verify_jwt": false,
-      "bundle_sha256": "84a1f49be93c6cf1775a927f11d9565f8fcb95cc62369b25ab29d44efeefaa09",
+      "bundle_sha256": "055502a4d87dec14c45f7905a116cffa8b1e1d1eab977bf2d7cddbcfabfe8a66",
       "files": [
         "index.ts"
       ],
@@ -134,9 +134,9 @@
     },
     {
       "slug": "proofline-staging-followups",
-      "version": 1,
+      "version": 2,
       "verify_jwt": true,
-      "bundle_sha256": "0320e8ce9e507905773f2b8a0777ea85feaf3435e486ed387ca0f14446884203",
+      "bundle_sha256": "1c2078c012a0e47ca8deaf99b119eaddeb00f1829686dc723bfe677d7390a4b7",
       "files": [
         "proofline-staging-followups/index.ts",
         "proofline-staging-followups/policy.mjs",

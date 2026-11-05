@@ -18,11 +18,11 @@ pg_net public-schema warning resolved; two confirmed role accounts retained, zer
 sessions after live tests. The staging confirmation redirect is corrected.
 Browser/session UI fixes are tracked in the deployment acceptance record.
 
-Next engineering priority: workbench submission/history controls and genuine
-collector/reviewer acceptance for the immutable remediation/reverification ledger.
-The staging followup API v1 is deployed; 32 mocked contract tests and two live
-gateway denial checks pass. Real-session followup acceptance is not yet established.
-See FOLLOWUP_API_ACCEPTANCE.md. No delivery/approval path exists. Real
+Next engineering priority: genuine collector/reviewer followup acceptance, then
+a complete authorized engagement-to-delivery rehearsal. The role-aware workbench
+and followup API v2 are deployed; 60 browser cases, 34 API contract tests and live
+HTTP/source/gateway-denial checks pass. Real-session followup acceptance is not yet
+established. See FOLLOWUP_WORKBENCH_ACCEPTANCE.md and SALE_READINESS_DECISION.md. No delivery/approval path exists. Real
 customer handoff still requires independent reviewer, custody and launch acceptance.
 
 Latest Security Advisor also flags disabled leaked-password protection. Review

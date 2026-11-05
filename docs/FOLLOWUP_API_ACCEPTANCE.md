@@ -1,5 +1,8 @@
 # Synthetic followup API — 2026-11-04 (America/New_York)
 
+Historical v1 record. The subsequent v2 deployment and role-aware UI acceptance
+are recorded in FOLLOWUP_WORKBENCH_ACCEPTANCE.md.
+
 `proofline-staging-followups` v1 is ACTIVE in the existing staging project
 `pgknyzwctmfqvlivlgpe`, with platform JWT verification enabled. Bundle SHA-256:
 `0320e8ce9e507905773f2b8a0777ea85feaf3435e486ed387ca0f14446884203`.
