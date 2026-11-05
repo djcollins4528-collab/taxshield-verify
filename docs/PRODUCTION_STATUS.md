@@ -5,10 +5,14 @@ Latest observed database preflight: 6/9 passing after confirmed account acceptan
 not the nine broader A–I production gates; none of those broad gates is fully verified.
 
 ## Verified this cycle
+- Synthetic followup API v1 deployed: authenticated append and paginated history,
+  32 mocked contract tests, two live gateway denials; 36 existing Node regressions
+  and four migration inventory tests pass. No live followup append has been tested.
+  See FOLLOWUP_API_ACCEPTANCE.md. Browser controls remain pending.
 - Remediation/reverification database layer deployed as migration 20261104200937.
   21 new isolated assertions and 21 existing security checks pass; all seven live
-  catalog categories match the 38-migration rebuild. New ledger has no client grants
-  or API/UI exposure. See FOLLOWUP_LEDGER_ACCEPTANCE.md for scope and limitations.
+  catalog categories match the 38-migration rebuild. New ledger has no client grants; a server-only staging API was subsequently
+  deployed, with UI acceptance still pending. See FOLLOWUP_LEDGER_ACCEPTANCE.md for scope and limitations.
 - Confirmed owner-controlled accounts: 9 live API authorization/revocation checks
   and Chromium/WebKit role sign-in/report acceptance passed. Auth Site URL now
   points to staging and was verified after dashboard reload.

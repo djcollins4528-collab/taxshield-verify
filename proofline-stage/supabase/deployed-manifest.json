@@ -131,6 +131,19 @@
         "index.ts"
       ],
       "note": "Generated source; LF normalization added after deployment without semantic change"
+    },
+    {
+      "slug": "proofline-staging-followups",
+      "version": 1,
+      "verify_jwt": true,
+      "bundle_sha256": "0320e8ce9e507905773f2b8a0777ea85feaf3435e486ed387ca0f14446884203",
+      "files": [
+        "proofline-staging-followups/index.ts",
+        "proofline-staging-followups/policy.mjs",
+        "proofline-staging-followups/handler.mjs",
+        "proofline-staging-followups/database.mjs",
+        "proofline-staging-auth/policy.mjs"
+      ]
     }
   ]
 }

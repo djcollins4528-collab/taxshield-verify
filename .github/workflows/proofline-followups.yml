@@ -1,0 +1,20 @@
+name: Proofline followup API contracts
+on:
+  push:
+    paths: ['proofline-stage/supabase/proofline-staging-followups/**', 'proofline-stage/supabase/proofline-staging-auth/policy.mjs', '.github/workflows/proofline-followups.yml']
+  pull_request:
+    paths: ['proofline-stage/supabase/proofline-staging-followups/**', 'proofline-stage/supabase/proofline-staging-auth/policy.mjs', '.github/workflows/proofline-followups.yml']
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - run: node --test proofline-stage/supabase/proofline-staging-followups/handler.test.mjs
