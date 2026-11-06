@@ -10,7 +10,7 @@ test('retained group is present, but business need remains unproven',()=>{
  const result=assessSnapshot(sample());assert.equal(result.findings[0].presence,'PRESENT');assert.equal(result.findings[0].business_need,'NOT_ESTABLISHED');assert.equal(result.findings[0].requires_owner_review,true);
 });
 test('owner justification is an attestation, never proof',()=>{
- const x=sample();x.owner_justifications={'static_group:'+gid:{attested:true}};assert.equal(assessSnapshot(x).findings[0].business_need,'OWNER_ATTESTED_NOT_INDEPENDENTLY_PROVEN');
+ const x=sample();x.owner_justifications={['static_group:'+gid]:{attested:true}};assert.equal(assessSnapshot(x).findings[0].business_need,'OWNER_ATTESTED_NOT_INDEPENDENTLY_PROVEN');
 });
 test('complete absence is bounded to named relationship',()=>{
  const x=sample();x.observed_relationships=[];const r=assessSnapshot(x);assert.equal(r.findings[0].presence,'ABSENT');assert.match(r.coverage,/NAMED_DIRECT/);
