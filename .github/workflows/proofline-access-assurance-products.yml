@@ -1,0 +1,28 @@
+name: Proofline Access Assurance product contracts
+on:
+  push:
+    paths:
+      - 'proofline-stage/product/**'
+      - '.github/workflows/proofline-access-assurance-products.yml'
+  pull_request:
+    paths:
+      - 'proofline-stage/product/**'
+      - '.github/workflows/proofline-access-assurance-products.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  catalog-and-prototype:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Validate proposed service catalog and synthetic access evaluator
+        run: node --test proofline-stage/product/*.test.mjs
+      - name: Fail closed if product catalog has premature activation
+        run: node proofline-stage/product/validate-catalog.mjs
