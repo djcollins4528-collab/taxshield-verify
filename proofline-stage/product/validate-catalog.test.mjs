@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {productCatalog,validateCatalog} from './validate-catalog.mjs';
+const copy=()=>structuredClone(productCatalog);
+test('all three offers defined and explicitly gated',()=>assert.deepEqual(validateCatalog(copy()),[]));
+test('customer intake must remain disabled',()=>{const x=copy();x.intake_enabled=true;assert.match(validateCatalog(x).join(','),/activation lock/)});
+test('live billing must remain disabled',()=>{const x=copy();x.billing_enabled=true;assert.match(validateCatalog(x).join(','),/activation lock/)});
+test('continuous monitoring cannot be represented as implemented',()=>{const x=copy();x.services[2].implementation_status='PRODUCTION';assert.match(validateCatalog(x).join(','),/status:|cannot claim/)});
+test('proposed prices cannot be described as approved',()=>{const x=copy();x.services[1].price_status='DEFINED_NOT_FOR_SALE';assert.match(validateCatalog(x).join(','),/unvalidated price/)});
+test('offboarding price cannot silently change',()=>{const x=copy();x.services[0].price_usd=3500;assert.match(validateCatalog(x).join(','),/defined offboarding price/)});
+test('new services cannot omit preflight or disclaimers',()=>{const x=copy();x.services[1].preflight=[];x.services[2].mandatory_exclusions=[];assert.match(validateCatalog(x).join(','),/preflight/);assert.match(validateCatalog(x).join(','),/exclusions/)});
