@@ -24,5 +24,9 @@ jobs:
           node-version: '22'
       - name: Validate proposed service catalog and synthetic access evaluator
         run: node --test proofline-stage/product/*.test.mjs
+      - name: Build and verify synthetic customer-style evidence package
+        run: |
+          node proofline-stage/product/deliverable-package.mjs build proofline-stage/product/fixtures/synthetic-assessment.json "$RUNNER_TEMP/proofline-package"
+          node proofline-stage/product/deliverable-package.mjs verify "$RUNNER_TEMP/proofline-package"
       - name: Fail closed if product catalog has premature activation
         run: node proofline-stage/product/validate-catalog.mjs
