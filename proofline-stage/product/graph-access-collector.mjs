@@ -34,7 +34,7 @@ function pageUri(url){
  return u.toString();
 }
 async function pages(get,url,maxPages=30){
- const results=[],visited=new Set();let next=pageUri(url),n=0;
+ const results=[],visited=new Set();let next=pageUri(url),n=0;const basePath=new URL(next).pathname;
  while(next){
   if(visited.has(next)||++n>maxPages)fail('pagination loop or page budget exceeded');
   visited.add(next);
@@ -43,6 +43,7 @@ async function pages(get,url,maxPages=30){
   results.push(...data.value);
   if(results.length>5000)fail('result budget exceeded');
   next=data['@odata.nextLink']?pageUri(data['@odata.nextLink']):null;
+  if(next&&new URL(next).pathname!==basePath)fail('pagination endpoint changed');
  }
  return results;
 }
