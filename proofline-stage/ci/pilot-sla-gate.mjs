@@ -1,3 +1,4 @@
+import {validateEvidenceChain} from './independent-delivery-evidence-gate.mjs';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 const fail=(reason)=>({decision:'NO_GO',reason});
@@ -20,6 +21,8 @@ export function evaluateRehearsals(receipts){
  const classes=new Set(receipts.map(x=>x?.scenario));
  if(!['supported','exception','insufficient'].every(x=>classes.has(x)))return fail('missing supported, exception, or insufficient case');
  for(const x of receipts){
+  const evidenceError=validateEvidenceChain(x);
+  if(evidenceError)return fail(evidenceError);
   if(!x||!validTime(x.readiness_at)||!validTime(x.delivered_at))return fail('missing authenticated readiness or delivery times');
   if(!x.real_tenant_authorized||!x.graph_collection_verified)return fail('authorized real-tenant collection unverified');
   if(!x.independent_human_reviewer_verified||!x.reviewer_attestation_verified_externally)return fail('independent accountable reviewer unverified');
