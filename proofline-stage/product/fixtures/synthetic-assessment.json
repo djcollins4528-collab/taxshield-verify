@@ -1,0 +1,29 @@
+{
+  "kind": "assessment",
+  "synthetic": true,
+  "snapshot": {
+    "synthetic": true,
+    "tenant_id": "c3a220f5-0086-484c-ae8c-bf3271ccfc73",
+    "subject_id": "7b1984c6-18eb-4272-b010-0e237c550b40",
+    "observed_at": "2026-11-06T18:00:00Z",
+    "source": {
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "evidence_id": "SYNTHETIC-DEMO-001",
+      "collected_at": "2026-11-06T17:59:00Z",
+      "pagination_complete": true,
+      "permissions_complete": true
+    },
+    "scoped_relationships": [
+      {
+        "kind": "static_group",
+        "id": "3d021101-f5c4-4b3d-acb5-f9a490c89fd4"
+      }
+    ],
+    "observed_relationships": [
+      {
+        "kind": "static_group",
+        "id": "3d021101-f5c4-4b3d-acb5-f9a490c89fd4"
+      }
+    ]
+  }
+}
