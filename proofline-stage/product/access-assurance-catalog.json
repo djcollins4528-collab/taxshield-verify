@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "brand": "Proofline Assurance",
+  "product_family": "Access Assurance",
+  "positioning": "Who has access to what, why do they still have it, and what evidence supports the controls we rely on?",
+  "publication_status": "PRELAUNCH",
+  "intake_enabled": false,
+  "billing_enabled": false,
+  "customer_data_collection_enabled": false,
+  "delivery_enabled": false,
+  "services": [
+    {
+      "id": "offboarding-evidence-review",
+      "name": "Offboarding Evidence Review",
+      "type": "fixed_scope_one_time",
+      "price_usd": 1950,
+      "price_status": "DEFINED_NOT_FOR_SALE",
+      "implementation_status": "DEVELOPMENT_TENANT_VALIDATION_PARTIAL",
+      "customer_scope": {
+        "tenants_max": 1,
+        "subjects_max": 1,
+        "relationships_max": 5
+      },
+      "capabilities": [
+        "read_only_user_state",
+        "revocation_audit_evidence",
+        "named_direct_memberships",
+        "named_direct_app_assignments",
+        "independent_review",
+        "evidence_register",
+        "remediation_worksheet",
+        "one_retest"
+      ],
+      "exclusions": [
+        "tenant_wide_certification",
+        "mailbox_delegation",
+        "all_saas_sessions",
+        "endpoint_and_network_access"
+      ],
+      "delivery_gate": "independent_approved_exact_digest_and_secure_delivery_verified"
+    },
+    {
+      "id": "m365-access-assurance-assessment",
+      "name": "Microsoft 365 Access Assurance Assessment",
+      "type": "fixed_scope_one_time",
+      "price_min_usd": 3500,
+      "price_max_usd": 5000,
+      "price_status": "HYPOTHESIS_NOT_FOR_SALE",
+      "implementation_status": "DESIGN_ONLY",
+      "scope_freeze_required": true,
+      "proposed_capabilities": [
+        "selected_user_access_inventory",
+        "direct_static_group_memberships",
+        "selected_privileged_role_assignments",
+        "selected_enterprise_app_assignments",
+        "owner_justification_and_exception_register",
+        "source_provenance_and_completeness",
+        "independent_review",
+        "reviewed_assessment_and_remediation_worksheet"
+      ],
+      "mandatory_exclusions": [
+        "no_implicit_tenant_wide_coverage",
+        "no_asserted_business_need_without_authorized_owner_attestation",
+        "no_claim_of_all_effective_access",
+        "no_auto_remediation",
+        "no_compliance_certification"
+      ],
+      "preflight": [
+        "signed_customer_authorization",
+        "agreed_tenant_and_scope_ids",
+        "least_privilege_graph_permissions",
+        "pagination_and_audit_availability",
+        "named_independent_reviewer",
+        "reviewer_conflict_and_data_terms",
+        "secure_custody_and_transfer",
+        "labor_economics_and_signed_fixed_quote"
+      ],
+      "delivery_gate": "new_product_specific_real_source_acceptance_required"
+    },
+    {
+      "id": "continuous-access-assurance",
+      "name": "Continuous Access Assurance",
+      "type": "recurring",
+      "price_min_usd": 299,
+      "price_max_usd": 799,
+      "price_period": "month",
+      "price_status": "HYPOTHESIS_NOT_FOR_SALE",
+      "implementation_status": "DESIGN_ONLY",
+      "proposed_capabilities": [
+        "scheduled_authorized_read_only_snapshots",
+        "limited_scope_access_drift_detection",
+        "exception_triage_and_owner_tracking",
+        "periodic_evidence_and_management_summary",
+        "human_validation_before_material_conclusions"
+      ],
+      "preflight": [
+        "authorized_scope_and_data_terms",
+        "consent_and_revocation_test",
+        "secure_credentials_and_rotation",
+        "reliable_scheduling_and_retries",
+        "baseline_and_drift_validation",
+        "alert_deduplication",
+        "retention_and_deletion",
+        "independent_human_oversight",
+        "service_level_and_support_staffing",
+        "billing_sandbox_and_cancellation_test"
+      ],
+      "mandatory_exclusions": [
+        "no_24x7_security_operations_center",
+        "no_claim_of_realtime_revocation",
+        "no_auto_configuration_changes",
+        "no_all_saas_coverage",
+        "no_guaranteed_continuous_detection"
+      ],
+      "delivery_gate": "multiple_real_source_billing_and_monitoring_acceptance_cycles_required"
+    }
+  ]
+}
