@@ -95,6 +95,6 @@ export async function collectAccessAssurance(scope,transport){
   scoped_relationships:scoped,observed_relationships:distinct,
   source:{pagination_complete:true,permissions_complete:true,graph_api:'v1.0',
     collected_at:observed_at,evidence_id:'GRAPH-'+digest({tenant,subject,observed_at}).slice(0,20),
-    sha256:digest({tenant,subject,scoped,observed:distinct,user})},
+    sha256:digest({tenant,subject,scoped,observed:distinct,user:{id:subject,accountEnabled:user.accountEnabled,userType:user.userType||null}})},
   limitations:['Selected direct relationships only','No transitive/dynamic effective access claim','App assignment checks resource service principal IDs, not individual app roles','Directory roles reflect direct active assignments only; no PIM eligible or group-derived role claims','No evidence of business justification or reviewer approval']};
 }
