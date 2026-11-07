@@ -15,7 +15,7 @@
 2. Run local unit tests: `node --test proofline-stage/product/*.test.mjs`. Tests use an injected fake transport; no network.
 3. With an approved ephemeral token in `PROOFLINE_GRAPH_TOKEN` and `PROOFLINE_ALLOW_LIVE_GRAPH=YES`, run `node proofline-stage/product/collect-graph-cli.mjs <scope.json> <new-output.json>`. **Do not** use a shared or public output path.
 4. Verify returned tenant/user IDs, requested relationship IDs, permission completeness and pagination, timestamps, source hash, source limitations, and actual observed results. Record collection identity and authorization in the external custody register. No source data is written to GitHub.
-5. Before report generation, implement an explicit real-source normalization and validation bridge: the existing synthetic-only package builder intentionally rejects real Graph evidence. Do not remove this guard without tests and reviewer approval.
+5. Build an **internal, unreviewed** report packet from the authorized collector output using the separate real-source bridge: \`node proofline-stage/product/graph-review-packet.mjs build <new-output.json> <approved-scope.json> <new-private-packet-directory>\`. Verify independently: \`node proofline-stage/product/graph-review-packet.mjs verify <new-private-packet-directory>\`. The existing synthetic-only package builder remains unchanged. Do not treat the output as a customer report.
 6. Complete independent human review, exact report hash approval, authenticated package delivery/withdrawal/recovery rehearsals, and signed commercial acceptance before any sale.
 
 ## Failure behavior
@@ -29,4 +29,4 @@
 - Direct directory role assignments do not prove absence of PIM eligible, group-derived or other privileged access.
 - No schedule, subscription, encryption-at-rest service, retention automation, tenant isolation, or customer delivery is implemented.
 
-**Release decision: NO-GO.**
+**Release decision: NO-GO.** The real-source bridge verifies consistency of normalized local collector output, not Microsoft-signed provenance. A reviewer must independently authenticate original source records and approve the exact report digest.
